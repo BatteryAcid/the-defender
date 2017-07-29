@@ -3,7 +3,23 @@
 
    <head>
       <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, minimal-ui, maximum-scale=1, minimum-scale=1, initial-scale=1, user-scalable=no"
+      />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-touch-fullscreen" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      <meta name="mobile-web-app-capable" content="yes">
       <title>hello phaser!</title>
+
+      <style>
+      body,
+      html {
+         height: 100%;
+         width: 100%;
+         margin: 0;
+      }
+      </style>
+
       <!-- <script src="//cdn.jsdelivr.net/phaser/2.5.0/phaser.min.js"></script> -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser-ce/2.8.2/phaser.min.js"></script>
       <script src="lib/phaser-plugin-isometric.min.js"></script>
@@ -12,73 +28,351 @@
    <body>
       <script type="text/javascript">
       window.onload = function() {
-         var game = new Phaser.Game(800, 400, Phaser.AUTO, 'test', null, true, false);
+         // var game = new Phaser.Game(800, 800, Phaser.AUTO, 'test', null, true, false);
+         var game = new Phaser.Game(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio,
+            Phaser.CANVAS, 'test', null, true, false);
 
          var BasicGame = function(game) {};
 
          BasicGame.Boot = function(game) {};
 
-         var isoGroup, sorted;
+         //var isoGroup, player, cursorPos;
+         var sprite, sprite2;
+         var spriteScale = 1;
+         var zoomed = false;
+         var gameWidth = window.innerWidth * window.devicePixelRatio;
+         var gameHeight = window.innerHeight * window.devicePixelRatio;
+         var debugText;
+
+         Camera = function(game) {
+            Phaser.Group.call(this, game); //required
+            this.scale.setTo(1, 1);
+            var previous = 1;
+            var lastScaleWidth, scaleWidth, lastScaleHeight, scaleHeight = 0;
+            var preScaleX, preScaleY, lastScaleDistanceX, lastScaleDistanceY = 0;
+            var clickX, clickY, deltaX, deltaY;
+            var preCenterX, preCenterY;
+            var startPosX, startPosY;
+            // this.scale.setTo(1);
+               // this.bounds = Phaser.Rectangle.clone(game.world.bounds);
+            
+            this.zoomTo = function(scale, pointer) {
+               // var duration = 5;
+               // var bounds       = this.bounds;
+               // var cameraBounds = game.camera.bounds;
+               // cameraBounds.x      = bounds.width  * (1 - scale) / 2;
+               // cameraBounds.y      = bounds.height * (1 - scale) / 2;
+               // cameraBounds.width  = bounds.width  * scale;
+               // cameraBounds.height = bounds.height * scale;
+
+
+               //this.scale.setTo(scale);
+               // game.add.tween(this.scale).to( { x: 2, y: 2 }, 500, Phaser.Easing.Linear.None, true, 0, 0, false);
+               // game.add.tween(this.position).to( { x: this.position.x - this.width / 2, y: this.position.y - this.height / 2}, 
+               //    500, Phaser.Easing.Linear.None, true, 0, 0, false );
+
+               if (previous != scale) {
+                  if (previous < scale) {
+                     clickX = pointer.x;
+                     clickY = pointer.y;
+                     // deltaX = clickX - this.centerX;
+                     // deltaY = clickY - this.centerY;
+
+                     // this.pivot.x = clickX;
+                     // this.pivot.y = clickY;
+
+                     // preCenterX = this.centerX;
+                     // preCenterY = this.centerY;
+                     console.log(this.centerX + ', ' + this.centerY);
+                     console.log(this.position.x + ', ' + this.position.y);
+                     startPosX = this.position.x;
+                     startPosY = this.position.y;
+
+                     // double s= scale_factor;
+                     // double x0 = center_point_x; //clickX
+                     // double y0 = center_point_y; //clickY
+                     // canvas.scale(s);
+                     // double u = (1-s) * x0;
+                     // double v = (1-s) * y0;
+                     // canvas.translate(u,v);
+                     var tweenScale = game.add.tween(this.scale).to( { x: 4, y: 4 }, 10, Phaser.Easing.Linear.None, true, 0, 0, false);
+
+                     // game.add.tween(this.position).to( { x: this.centerX - this.width / 2, y: this.centerY - this.height / 2}, 
+                     //    500, Phaser.Easing.Linear.None, true, 0, 0, false );
+
+                     // tweenScale.chain(tweenCorrectPosition);
+                     // tweenScale.start();
+                     tweenScale.onComplete.add(function() {
+                        //to: x,y are actual coordinates
+                        console.log(this.centerX + ', ' + this.centerY);
+                        console.log(this.position.x + ', ' + this.position.y);
+
+
+                        // var deltaCenterX = (this.centerX - preCenterX);
+                        // var deltaCenterY = (this.centerY - preCenterY);
+
+                        // var deltaCenterX = (clickX - this.centerX);
+                        // var deltaCenterY = (clickY - this.centerY);
+
+                        var u = ((1-this.scale.x) * clickX) + startPosX;
+                        var v = ((1-this.scale.y) * clickY) + startPosY;
+
+
+                        game.add.tween(this.position).to( 
+                           { x:  this.position.x + u, y: this.position.y + v}, 
+                           10, Phaser.Easing.Linear.None, true, 0, 0, false );
+                     }, this);
+                     
+                  } else {
+                     //go back
+                     
+                     // game.add.tween(this.scale).to( { x: 1, y: 1 }, 500, Phaser.Easing.Linear.None, true, 0, 0, false);
+                     // game.add.tween(this.position).to( { x: this.centerX - this.width / 2, y: this.centerY - this.height / 2}, 
+                     //    500, Phaser.Easing.Linear.None, true, 0, 0, false );
+
+                     var u = ((1-this.scale.x) * clickX) + startPosX;
+                     var v = ((1-this.scale.y) * clickY) + startPosY;
+
+                     var scaleDown = game.add.tween(this.scale).to( { x: 1, y: 1 }, 10, Phaser.Easing.Linear.None, true, 0, 0, false);
+                     scaleDown.onComplete.add(function() {
+                        game.add.tween(this.position).to( 
+                           { x:  this.position.x - u, y: this.position.y - v}, 
+                           10, Phaser.Easing.Linear.None, true, 0, 0, false );
+                     }, this);
+                  }
+                  previous = scale;
+               }
+
+               // lastScaleDistanceX = this.centerX - preScaleX;
+               // lastScaleDistanceY = this.centerY - preScaleY;
+
+               // if (previous != scale) {
+               //    if (previous < scale) {
+               //       this.centerX = this.centerX - lastScaleDistanceX;
+               //       this.centerY = this.centerY - lastScaleDistanceX;
+               //    } else {
+               //       //go back
+               //       this.centerX = this.centerX -lastScaleDistanceX;
+               //       this.centerY = this.centerY -lastScaleDistanceX;
+               //    }
+               //    previous = scale;
+               // }
+
+               //still need to factor in width
+
+               // scaleWidth = this.centerX - this.width/2;
+               // scaleHeight = this.centerY -this.height/2;
+
+               // if (previous != scale) {
+               //    if (previous < scale) {
+               //       this.x = scaleWidth;
+               //       this.y = scaleHeight;
+               //    } else {
+               //       //go back
+               //       this.x += -lastScaleWidth;
+               //       this.y += -lastScaleHeight;
+               //    }
+               //    lastScaleWidth = scaleWidth;
+               //    lastScaleHeight = scaleHeight;
+               //    previous = scale;
+                  
+               //    console.log(this.width);
+               //    console.log(this.y);
+
+               // }
+               // game.add.tween(cameraBounds).to({
+               //       x      : bounds.width  * (1 - scale) / 2,
+               //       y      : bounds.height * (1 - scale) / 2,
+               //       width  : bounds.width  * scale,
+               //       height : bounds.height * scale
+               //   }, duration).start();
+
+               //   return game.add.tween(this.scale).to({
+               //       x: scale, y: scale
+               //   }, duration).start();
+               //this.scale.setTo(cameraBounds.x, cameraBounds.y, cameraBounds.width, cameraBounds.height);
+            };
+         };
+
+         Camera.prototype = Object.create(Phaser.Group.prototype);
+         Camera.prototype.constructor = Camera;
+
+         var camera;
 
          BasicGame.Boot.prototype = {
             preload: function() {
-               game.load.image('cube', '../images/m.png');
+               // game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+               game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL; //TODO: what to set this as
+               //game.scale.setMinMax(400, 300, window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio); //TODO: what to set this as
+
+               //game.scale.refresh();
+
+               //game.load.image('cube', '/images/grass.png');
+               game.load.image('guy', '/images/guy.png');
 
                game.time.advancedTiming = true;
 
                // Add and enable the plug-in.
-               game.plugins.add(new Phaser.Plugin.Isometric(game));
+               //game.plugins.add(new Phaser.Plugin.Isometric(game));
+               //game.physics.startSystem(Phaser.Plugin.Isometric.ISOARCADE);
+
+               game.load.image('floor', '/images/background.png');
 
                // This is used to set a game canvas-based offset for the 0, 0, 0 isometric coordinate - by default
                // this point would be at screen coordinates 0, 0 (top left) which is usually undesirable.
-               game.iso.anchor.setTo(0.5, 0.2);
+               //game.iso.anchor.setTo(0.5, 0.00);
 
             },
             create: function() {
+
                // Create a group for our tiles, so we can use Group.sort
-               isoGroup = game.add.group();
+               //isoGroup = game.add.group();
 
                // Let's make a load of cubes on a grid, but do it back-to-front so they get added out of order.
-               var cube;
-               for (var xx = 256; xx > 0; xx -= 48) {
-                  for (var yy = 256; yy > 0; yy -= 48) {
-                     // Create a cube using the new game.add.isoSprite factory method at the specified position.
-                     // The last parameter is the group you want to add it to (just like game.add.sprite)
-                     cube = game.add.isoSprite(xx, yy, 0, 'cube', 0, isoGroup);
-                     cube.anchor.set(0.5)
+               // var cube;
+               // var cubeSizeX = 1;
+               // for (var xx = 2048; xx > 0; xx -= 48) {
+               //    cubeSizeX = cubeSizeX + .1;
+               //    for (var yy = 2048; yy > 0; yy -= 48) {
+               //       // Create a cube using the new game.add.isoSprite factory method at the specified position.
+               //       // The last parameter is the group you want to add it to (just like game.add.sprite)
+               //       cube = game.add.isoSprite(xx, yy, 0, 'cube', 0, isoGroup);
+               //       cube.anchor.set(0.5);
 
-                     // Store the old messed up ordering so we can compare the two later.
-                     cube.oldZ = cube.z;
+               //       if (yy%5 === 0) {
+               //          cube.tint = 0x86bfda;
+               //       }
+               //       //cube.scale.set(cubeSizeX , cubeSizeX);
+               //    }
+               // }
 
-                     // Add a slightly different tween to each cube so we can see the depth sorting working more easily.
-                     game.add.tween(cube).to({
-                        isoZ: 10
-                     }, 100 * ((xx + yy) % 10), Phaser.Easing.Quadratic.InOut, true, 0, Infinity, true);
-                  }
-               }
+               // // sort the tile
+               // game.iso.simpleSort(isoGroup);
 
-               // Just a var so we can tell if the group is sorted or not.
-               sorted = false;
+               // Create another cube as our 'player', and set it up just like the cubes above.
+               // player = game.add.isoSprite(0, 100, 10, 'guy', 0, isoGroup);
+               //player.tint = 0x86bfda;
 
-               // Toggle sorting on click/tap.
-               game.input.onDown.add(function() {
-                  sorted = !sorted;
-                  if (sorted) {
-                     game.iso.simpleSort(isoGroup);
-                  } else {
-                     isoGroup.sort('oldZ');
-                  }
-               }, this);
+               camera = new Camera(game);
 
+               camera.x = 0;//game.world.centerX;// - (this.doorsContainer.width * 0.5);
+               camera.y = 0;//game.world.centerY;// - (this.doorsContainer.height* 0.5);
+
+               var floor = camera.create(0, game.height, 'floor');//game.add.image(0, game.height, 'floor');
+               floor.width = game.width;
+               floor.height = game.height;
+               floor.anchor.y = 1;
+
+               sprite = camera.create(700, 800, 'guy');
+               sprite2 = camera.create(1000, 700, 'guy');
+               sprite3 = camera.create(1200, 800, 'guy');
+               //sprite = game.add.sprite(100, 100, 'guy');
+               sprite.anchor.setTo(0.5, 0.5);
+               sprite2.anchor.setTo(0.5, 0.5);
+               sprite3.anchor.setTo(0.5, 0.5);
+               sprite.scale.setTo(1);
+               sprite2.scale.setTo(1);
+               sprite3.scale.setTo(1);
+
+
+               //background
+               //doesnt work : game.stage.backgroundColor = '#000042';
+
+               
+               //floor.z = 1;
+               //floor.x = 100;
+
+               // sprite.pivot.x = sprite.x;
+               // sprite.pivot.y =  sprite.y;
+
+               game.input.onTap.add(onTap);//, sprite);
+
+               debugText = game.add.text(20, 20, sprite.y, {fontSize: '50px'});
+
+               // player.anchor.set(0.5);
+               // //game.physics.isoArcade.enable(player);
+               // player.body.collideWorldBounds = true;
+               // player.inputEnabled = true;
+               // player.input.pixelPerfectClick = true;
+               // player.events.onInputDown.add(tint, this);
+               // player.body.x = 0;
+               // player.body.y = 100;
+               // player.body.z = 0;
+
+               // Provide a 3D position for the cursor
+               //cursorPos = new Phaser.Plugin.Isometric.Point3();
             },
             update: function() {
 
+               //camera.rotation += 0.02;
+
+               // if (sprite.world.y < (gameHeight)) {
+               //    sprite.y += .5;
+               //    // sprite.scale.setTo(spriteScale, spriteScale);
+               //    // spriteScale += .002;
+               // }
+
+               debugText.setText(sprite.y);
+
+
+               //game.iso.unproject(game.input.activePointer.position, cursorPos);
+
+               // Loop through all tiles and test to see if the 3D position from above intersects with the automatically generated IsoSprite tile bounds.
+               // isoGroup.forEach(function(tile) {
+               //    var inBounds = tile.isoBounds.containsXY(cursorPos.x + 36, cursorPos.y + 36); //used 36 for half image offset
+               //    // If it does, do a little animation and tint change.
+               //    if (!tile.selected && inBounds) {
+               //       tile.selected = true;
+               //       tile.tint = 0x86bfda;
+               //       game.add.tween(tile).to({
+               //          isoZ: 10
+               //       }, 200, Phaser.Easing.Quadratic.InOut, true);
+               //    }
+               //    // If not, revert back to how it was.
+               //    else if (tile.selected && !inBounds) {
+               //       tile.selected = false;
+               //       tile.tint = 0xffffff;
+               //       game.add.tween(tile).to({
+               //          isoZ: 0
+               //       }, 200, Phaser.Easing.Quadratic.InOut, true);
+               //    }
+               // });
+
+               //player.body.x += 1;
+               //player.body.y = 100;
+               //player.body.z = 0;
+               // player.body.velocity.y += 1;
+               // player.body.velocity.z += 1;
             },
             render: function() {
-               game.debug.text("Click to toggle! Sorting enabled: " + sorted, 2, 36, "#ffffff");
-               game.debug.text(game.time.fps || '--', 2, 14, "#a7aebe");
+               // game.debug.text("Click to toggle! Sorting enabled: " + sorted, 2, 36, "#ffffff");
+               game.debug.text((game.time.fps || '--') + gameWidth + ", " + gameHeight, 2, 14, "#a7aebe");
+
+               // var point = new Phaser.Rectangle( game.world.centerX, game.world.centerY, 25, 25 ) ;
+               // game.debug.geom( point, 'rgba(255,0,0,1)' ) ;
+
+               // var point = new Phaser.Rectangle( 200.5, 400.5, 25, 25 ) ;
+               // game.debug.geom( point, 'rgb(56, 230, 154)' ) ;
+
+               // var point = new Phaser.Rectangle( 300, 700, 25, 25 ) ;
+               // game.debug.geom( point, 'rgb(71, 111, 241)' ) ;
             }
          };
+
+         function onTap(pointer, doubleTap) {
+            zoomed = !zoomed;
+            if (zoomed !== true) {
+               // sprite.scale.setTo(5, 5);
+               camera.zoomTo(2, pointer);
+            } else {
+               // sprite.scale.setTo(1, 1);
+               camera.zoomTo(1, pointer);
+            }
+         }
+
+         function tint() {
+            player.tint = Math.random() * 0xffffff;
+         }
 
          game.state.add('Boot', BasicGame.Boot);
          game.state.start('Boot');
