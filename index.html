@@ -26,159 +26,22 @@
 
    <body>
       <script type="text/javascript">
+      //setup global namespace
+      var TDG = function(game) {};
       window.onload = function() {
-         // var game = new Phaser.Game(800, 800, Phaser.AUTO, 'test', null, true, false);
-         var game = new Phaser.Game(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio,
-            Phaser.CANVAS, 'test', null, true, false);
-
-         var BasicGame = function(game) {};
-
-         BasicGame.Boot = function(game) {};
-
-         var sprite, sprite2;
-         var spriteScale = 1;
-         var zoomed = false;
-         var gameWidth = window.innerWidth * window.devicePixelRatio;
-         var gameHeight = window.innerHeight * window.devicePixelRatio;
-         var debugText;
-
-         Camera = function(game) {
-            Phaser.Group.call(this, game); //required
-            this.scale.setTo(1, 1);
-            var previous = 1;
-            var clickX, clickY, startPosX, startPosY;
-
-            this.zoomTo = function(scale, pointer) {
-              
-               if (previous != scale) {
-                  if (previous < scale) {
-                     clickX = pointer.x;
-                     clickY = pointer.y;
-                  
-                     // console.log(this.centerX + ', ' + this.centerY);
-                     // console.log(this.position.x + ', ' + this.position.y);
-                     startPosX = this.position.x;
-                     startPosY = this.position.y;
-
-                     var tweenScale = game.add.tween(this.scale).to( { x: 4, y: 4 }, 10, Phaser.Easing.Linear.None, true, 0, 0, false);
-
-                     tweenScale.onComplete.add(function() {
-                        // console.log(this.centerX + ', ' + this.centerY);
-                        // console.log(this.position.x + ', ' + this.position.y);
-
-                        var u = ((1-this.scale.x) * clickX) + startPosX;
-                        var v = ((1-this.scale.y) * clickY) + startPosY;
-
-                        game.add.tween(this.position).to( 
-                           { x:  this.position.x + u, y: this.position.y + v}, 
-                           10, Phaser.Easing.Linear.None, true, 0, 0, false );
-                     }, this);
-                     
-                  } else {
-                     //zoom back out
-                     var u = ((1-this.scale.x) * clickX) + startPosX;
-                     var v = ((1-this.scale.y) * clickY) + startPosY;
-
-                     var scaleDown = game.add.tween(this.scale).to( { x: 1, y: 1 }, 10, Phaser.Easing.Linear.None, true, 0, 0, false);
-                     scaleDown.onComplete.add(function() {
-                        game.add.tween(this.position).to( 
-                           { x:  this.position.x - u, y: this.position.y - v}, 
-                           10, Phaser.Easing.Linear.None, true, 0, 0, false );
-                     }, this);
-                  }
-                  previous = scale;
-               }
-            };
-         };
-
-         Camera.prototype = Object.create(Phaser.Group.prototype);
-         Camera.prototype.constructor = Camera;
-
-         var camera;
-
-         BasicGame.Boot.prototype = {
-            preload: function() {
-               // game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-               game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL; //TODO: what to set this as
-               //game.scale.setMinMax(400, 300, window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio); //TODO: what to set this as
-               game.load.image('guy', '/images/guy.png');
-               game.load.image('floor', '/images/background.png');
-            },
-            create: function() {
-               camera = new Camera(game);
-
-               camera.x = 0;//game.world.centerX;
-               camera.y = 0;//game.world.centerY;
-
-               var floor = camera.create(0, game.height, 'floor');//game.add.image(0, game.height, 'floor');
-               floor.width = game.width;
-               floor.height = game.height;
-               floor.anchor.y = 1;
-
-               sprite = camera.create(700, 800, 'guy');
-               sprite2 = camera.create(1000, 700, 'guy');
-               sprite3 = camera.create(1200, 800, 'guy');
-
-               sprite.anchor.setTo(0.5, 0.5);
-               sprite2.anchor.setTo(0.5, 0.5);
-               sprite3.anchor.setTo(0.5, 0.5);
-               sprite.scale.setTo(1);
-               sprite2.scale.setTo(1);
-               sprite3.scale.setTo(1);
-
-               game.input.onTap.add(onTap);
-
-               debugText = game.add.text(20, 20, sprite.y, {fontSize: '50px'});
-
-            },
-            update: function() {
-
-               //camera.rotation += 0.02;
-
-               // if (sprite.world.y < (gameHeight)) {
-               //    sprite.y += .5;
-               //    // sprite.scale.setTo(spriteScale, spriteScale);
-               //    // spriteScale += .002;
-               // }
-
-               debugText.setText(sprite.y);
-            },
-            render: function() {
-               // game.debug.text("Click to toggle! Sorting enabled: " + sorted, 2, 36, "#ffffff");
-               game.debug.text((game.time.fps || '--') + gameWidth + ", " + gameHeight, 2, 14, "#a7aebe");
-
-               //debug points
-               // var point = new Phaser.Rectangle( game.world.centerX, game.world.centerY, 25, 25 ) ;
-               // game.debug.geom( point, 'rgba(255,0,0,1)' ) ;
-
-               // var point = new Phaser.Rectangle( 200.5, 400.5, 25, 25 ) ;
-               // game.debug.geom( point, 'rgb(56, 230, 154)' ) ;
-
-               // var point = new Phaser.Rectangle( 300, 700, 25, 25 ) ;
-               // game.debug.geom( point, 'rgb(71, 111, 241)' ) ;
-            }
-         };
-
-         function onTap(pointer, doubleTap) {
-            zoomed = !zoomed;
-            if (zoomed !== true) {
-               // sprite.scale.setTo(5, 5);
-               camera.zoomTo(2, pointer);
-            } else {
-               // sprite.scale.setTo(1, 1);
-               camera.zoomTo(1, pointer);
-            }
-         }
-
-         function tint() {
-            player.tint = Math.random() * 0xffffff;
-         }
-
-         game.state.add('Boot', BasicGame.Boot);
-         game.state.start('Boot');
-
+         (function() {
+            var game = new Phaser.Game(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio,
+               Phaser.CANVAS, 'game', null, true, false);
+            game.state.add('Boot', TDG.Boot);
+            game.state.start('Boot');
+         })();
       };
       </script>
+      <script src="src/camera.js"></script>
+      <script src="src/input.js"></script>
+      <script src="src/main.js"></script>
+      <script src="src/boot.js"></script>
+
    </body>
 
 </html>
