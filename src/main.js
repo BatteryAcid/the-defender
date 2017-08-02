@@ -7,17 +7,17 @@
    	this.sprite, this.sprite2, this.sprite3;
 
    	//testing only
-   	this.gameHeight = window.innerHeight * window.devicePixelRatio;
+   	//this.gameHeight = window.innerHeight * window.devicePixelRatio;
    };
    Main.prototype = {
-      create: function() {
+      create: function(gameWidth, gameHeight) {
          this.camera.x = 0;
          this.camera.y = 0;
 
-         var floor = this.camera.create(0, this.game.height, 'floor');
-         floor.width = this.game.width;
-         floor.height = this.game.height;
-         floor.anchor.y = 1;
+         var background = this.camera.create(0, gameHeight, 'background');
+         background.width = gameWidth;
+         background.height = gameHeight;
+         background.anchor.y = 1;
 
          this.sprite = this.camera.create(700, 800, 'guy');
          this.sprite2 = this.camera.create(1000, 700, 'guy');
@@ -32,9 +32,9 @@
 
          this.game.input.onTap.add(this.input.onTap.bind(this.input));
 
-         this.debugText = this.game.add.text(20, 20, this.sprite.y, {
-            fontSize: '50px'
-         });
+         // this.debugText = this.game.add.text(20, 20, this.sprite.y, {
+         //    fontSize: '50px'
+         // });
 
       },
       update: function() {
@@ -43,7 +43,7 @@
          //    this.sprite.y += .5;
          // }
 
-      	this.debugText.setText(this.sprite.y);
+      	// this.debugText.setText(this.sprite.y);
       }
    };
 

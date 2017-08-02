@@ -3,7 +3,7 @@
 
    <head>
       <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, minimal-ui, maximum-scale=1, minimum-scale=1, initial-scale=1, user-scalable=no"
+      <meta name="viewport" content="width=device-width, maximum-scale=1, minimum-scale=1, initial-scale=1, user-scalable=no"
       />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-touch-fullscreen" content="yes" />
@@ -18,6 +18,27 @@
          width: 100%;
          margin: 0;
       }
+
+      body {
+         margin: 0px 0px 1px 0px;
+         /* the extra 1px allows the iOS inner/outer check to work */
+         background: #000;
+      }
+
+      #orientation {
+         margin: 0 auto;
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-image: url(../images/orientation.jpg);
+         background-repeat: no-repeat;
+         background-position: center;
+         background-color: rgb(0, 0, 0);
+         z-index: 999;
+         display: none;
+      }
       </style>
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser-ce/2.8.2/phaser.min.js"></script>
@@ -25,13 +46,25 @@
    </head>
 
    <body>
+      <!-- TODO: create these in JS once we minimize everything -->
+      <div id="gameContainer"></div>
+      <div id="orientation"></div>
+      
       <script type="text/javascript">
       //setup global namespace
-      var TDG = function(game) {};
+      var TDG = function(game) {
+         orientated: false
+      };
       window.onload = function() {
          (function() {
-            var game = new Phaser.Game(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio,
-               Phaser.CANVAS, 'game', null, true, false);
+            var gameWidth = this.gameWidth = window.innerHeight * window.devicePixelRatio;
+            var gameHeight = this.gameHeight = window.innerWidth * window.devicePixelRatio;
+            if (window.innerWidth * window.devicePixelRatio > window.innerHeight * window.devicePixelRatio) {
+               gameWidth = window.innerWidth * window.devicePixelRatio;
+               gameHeight = window.innerHeight * window.devicePixelRatio;
+            }
+            var game = new Phaser.Game(gameWidth, gameHeight,
+               Phaser.CANVAS, 'gameContainer', null, true, false);
             game.state.add('Boot', TDG.Boot);
             game.state.start('Boot');
          })();
