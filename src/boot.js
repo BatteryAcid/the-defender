@@ -31,14 +31,19 @@
       preload: function() {
          this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL; 
          this.game.load.image('guy', 'images/guy.png');
+         this.game.load.image('victim', 'images/victim.png');
          this.game.load.image('background', 'images/background.png');
-         this.main = new TDG.Main(this.game);
+         //TODO: this.game.load.image('menu-bg', 'assets/images/menu-bg.jpg');
+         this.game.load.spritesheet('button', 'images/button.png', 193, 71);
       },
       create: function() {
-         this.main.create(this.gameWidth, this.gameHeight);
+         this.game.state.add('main', TDG.Main);
+         this.game.state.add('main-menu', TDG.MainMenu);
+         this.game.state.add('level-complete-menu', TDG.LevelCompleteMenu);
+
+         this.game.state.start('main-menu', true, false, this.gameWidth, this.gameHeight);
       },
       update: function() {
-         this.main.update();
       },
       gameResized: function(width, height) {
          //  This could be handy if you need to do any extra processing if the game resizes.
