@@ -2,15 +2,19 @@
    var Boot = function(game) {
       this.zoomed = false;
       this.debugText = "";
+      var gameWidth;
+      var gameHeight;
 
       if (window.innerWidth * window.devicePixelRatio > window.innerHeight * window.devicePixelRatio) {
-         this.gameWidth = window.innerWidth * window.devicePixelRatio;
-         this.gameHeight = window.innerHeight * window.devicePixelRatio;
+         gameWidth = window.innerWidth * window.devicePixelRatio;
+         gameHeight = window.innerHeight * window.devicePixelRatio;
       } else {
-         this.gameWidth = window.innerHeight * window.devicePixelRatio;
-         this.gameHeight = window.innerWidth * window.devicePixelRatio;
+         gameWidth = window.innerHeight * window.devicePixelRatio;
+         gameHeight = window.innerWidth * window.devicePixelRatio;
       }
-      console.log("w: " + this.gameWidth + ", h: " + this.gameHeight);
+      console.log("w: " + gameWidth + ", h: " + gameHeight);
+      TDG.GAME_WIDTH = gameWidth;
+      TDG.GAME_HEIGHT = gameHeight;
 
       this.main = undefined;
    };
@@ -33,6 +37,7 @@
          this.game.load.image('guy', 'images/guy.png');
          this.game.load.image('victim', 'images/victim.png');
          this.game.load.image('background', 'images/background.png');
+         this.game.load.image('bullet', 'images/purple_ball.png');
          //TODO: this.game.load.image('menu-bg', 'assets/images/menu-bg.jpg');
          this.game.load.spritesheet('button', 'images/button.png', 193, 71);
       },
@@ -41,7 +46,7 @@
          this.game.state.add('main-menu', TDG.MainMenu);
          this.game.state.add('level-complete-menu', TDG.LevelCompleteMenu);
 
-         this.game.state.start('main-menu', true, false, this.gameWidth, this.gameHeight);
+         this.game.state.start('main-menu', true, false, TDG.GAME_WIDTH, TDG.GAME_HEIGHT);
       },
       update: function() {
       },
@@ -60,7 +65,7 @@
       },
       render: function() {
          // game.debug.text("Click to toggle! Sorting enabled: " + sorted, 2, 36, "#ffffff");
-         this.game.debug.text((this.game.time.fps || '--') + this.gameWidth + ", " + this.gameHeight, 2, 14,
+         this.game.debug.text((this.game.time.fps || '--') + TDG.GAME_WIDTH + ", " + TDG.GAME_HEIGHT, 2, 14,
             "#a7aebe");
 
          //debug points
