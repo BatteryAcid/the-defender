@@ -1,12 +1,10 @@
 (function() {
-   var Victim = function(game, camera, gameWidth, gameHeight) {
+   var Victim = function(game, camera) {
       this.camera = camera;
-      this.gameHeight = gameHeight;
-      this.gameWidth = gameWidth;
       this.stop = false;
 
       //init
-      this.victimInstance = this.camera.create(gameWidth / 2, gameHeight - 50, 'victim');
+      this.victimInstance = this.camera.create(TDG.GAME_WIDTH / 2, TDG.GAME_HEIGHT - 50, 'victim');
       this.victimInstance.anchor.setTo(0.5, 0.5);
       this.victimInstance.scale.setTo(1);
    };

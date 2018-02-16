@@ -3,10 +3,7 @@
       this.game = game;
    };
    LevelCompleteMenu.prototype = {
-      init: function(gameWidth, gameHeight) {
-         this.gameHeight = gameHeight;
-         this.gameWidth = gameWidth;
-
+      init: function() {
          this.titleText = this.game.make.text(this.game.world.centerX, 100, "Level Complete!", {
             //font: 'bold 60pt TheMinion',
             fill: '#FDFFB5',
@@ -25,7 +22,7 @@
          this.game.add.button(this.game.world.centerX - 95, 400, 'button', this.actionOnClick, this, 2, 1, 0);
       },
       actionOnClick: function() {
-         this.game.state.start('main', true, false, this.gameWidth, this.gameHeight);
+         this.game.state.start('main', true, false);
       }
    };
 

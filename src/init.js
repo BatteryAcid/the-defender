@@ -27,3 +27,6 @@ window.onload = function() {
       game.state.start('Boot');
    })();
 };
+
+TDG.GAME_WIDTH;
+TDG.GAME_HEIGHT;
