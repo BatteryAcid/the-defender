@@ -16,7 +16,7 @@
             }
          } else {
             if (this.zoomedIn === true && this.game.input.activePointer.isDown) {
-            //debug: if (this.game.input.activePointer.isDown) {
+               //debug: if (this.game.input.activePointer.isDown) {
                this.gun.fire();
             }
          }

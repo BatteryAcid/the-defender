@@ -10,8 +10,8 @@
       getCurrentLevel: function() {
          return this.currentLevel;
       },
-      levelEnded: function(victimCurrentHeight) {
-         if (victimCurrentHeight > this.levelHeight) {
+      levelEnded: function(goodGuyCurrentHeight) {
+         if (goodGuyCurrentHeight > this.levelHeight) {
             return false;
          } else {
             return true;
