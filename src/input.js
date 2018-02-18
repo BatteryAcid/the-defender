@@ -18,8 +18,8 @@
             }
          } else {
             if (this.zoomedIn === true && this.game.input.activePointer.isDown) {
-               //debug: if (this.game.input.activePointer.isDown) {
-               this.bullets.fire();
+                // if (this.game.input.activePointer.isDown) {
+               this.bullets.fire(pointer);
             }
          }
       }

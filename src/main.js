@@ -29,12 +29,19 @@
 
          this.camera.add(this.badGuys.getBadGuyGroup());
 
+         // TDG.REF = this.camera.create(TDG.GAME_WIDTH / 2, TDG.GAME_HEIGHT - 50, 'goodguy');
+         // // this.camera.add(TDG.REF);
+         // TDG.REF.anchor.setTo(0.5, 0.5);
+         // TDG.REF.scale.setTo(1);
+         this.camera.add(this.bullets.getBulletGroup());
+
          // this.debugText = this.game.add.text(20, 20, this.sprite.y, {
          //    fontSize: '50px'
          // });
       },
+      //TODO: need overlap detection, this seems to fail sometimes
       hitSprite: function(sprite1, sprite2) {
-         //debug: console.log("collision");
+         console.log("collision");
          // remove bullet and bad guy
          sprite1.kill();
          sprite2.kill();

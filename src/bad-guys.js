@@ -3,11 +3,14 @@
       var badGuyGroup = game.add.group();
       badGuyGroup.enableBody = true;
       badGuyGroup.physicsBodyType = Phaser.Physics.ARCADE;
+      var BAD_GUY_COUNT = 1;
 
-      for (var i = 0; i < 50; i++) {
+      for (var i = 0; i < BAD_GUY_COUNT; i++) {
          var badGuy = badGuyGroup.create(game.world.randomX, game.world.randomY, 'guy');
-         badGuy.anchor.setTo(0.5, 0.5);
       }
+
+      badGuyGroup.setAll('anchor.x', 0.5);
+      badGuyGroup.setAll('anchor.y', 0.5);
 
       this.pursueGoodGuy = function(goodGuy) {
          badGuyGroup.forEach(function(singleEnemy) {
@@ -19,7 +22,8 @@
       function setBadGuyVelocity(goodGuy, singleEnemy) {
          var radians = game.physics.arcade.angleBetween(singleEnemy, goodGuy.getGoodGuyInstance());
          var degrees = radians * (180 / Math.PI);
-         game.physics.arcade.velocityFromAngle(degrees, 50, singleEnemy.body.velocity);
+         //number is speed here
+         game.physics.arcade.velocityFromAngle(degrees, 10, singleEnemy.body.velocity);
       }
 
       function setHitBoxSizeBasedOnZoom(singleEnemy) {
