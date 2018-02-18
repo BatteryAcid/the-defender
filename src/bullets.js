@@ -39,13 +39,14 @@
             //reset bullet and scale
             bullet.reset(TDG.GAME_WIDTH / 2, TDG.GAME_HEIGHT - 20);
             bullet.scale.setTo(2, 2);
+            bullet.anchor.setTo(0.5, 0.5);
 
-            this.game.physics.arcade.moveToPointer(bullet, 2000); // speed
+            this.game.physics.arcade.moveToPointer(bullet, 2000); //speed
 
             this.game.add.tween(bullet.scale).to({
                x: .1,
                y: .1
-            }, 2000, Phaser.Easing.Linear.None, true, 0, Number.MAX_VALUE, false);
+            }, 2000, Phaser.Easing.Linear.None, true, 0, 0, false);
          }
       }
    };

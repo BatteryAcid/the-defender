@@ -30,3 +30,4 @@ window.onload = function() {
 
 TDG.GAME_WIDTH;
 TDG.GAME_HEIGHT;
+TDG.ZOOMED_IN = false;

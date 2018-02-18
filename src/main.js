@@ -49,6 +49,12 @@
 
          this.game.physics.arcade.collide(this.badGuys.getBadGuyGroup(), this.bullets.getBulletGroup(), this.hitSprite,
             null, this);
+      },
+      render: function() {
+         //debug:
+         // this.badGuys.getBadGuyGroup().forEach(function(singleEnemy) {
+         //    this.game.debug.body(singleEnemy);
+         //    }, this.game.physics);
       }
    };
 

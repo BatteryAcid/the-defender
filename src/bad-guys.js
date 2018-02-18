@@ -6,16 +6,28 @@
 
       for (var i = 0; i < 50; i++) {
          var badGuy = badGuyGroup.create(game.world.randomX, game.world.randomY, 'guy');
-         badGuy.body.setSize(200, 200, 20, 0);
-         game.debug.body(badGuy);
+         badGuy.anchor.setTo(0.5, 0.5);
       }
 
       this.pursueGoodGuy = function(goodGuy) {
          badGuyGroup.forEach(function(singleEnemy) {
-            var radians = game.physics.arcade.angleBetween(singleEnemy, goodGuy.getGoodGuyInstance());
-            var degrees = radians * (180 / Math.PI);
-            game.physics.arcade.velocityFromAngle(degrees, 50, singleEnemy.body.velocity);
+            setBadGuyVelocity(goodGuy, singleEnemy);
+            setHitBoxSizeBasedOnZoom(singleEnemy);
          }, game.physics);
+      }
+
+      function setBadGuyVelocity(goodGuy, singleEnemy) {
+         var radians = game.physics.arcade.angleBetween(singleEnemy, goodGuy.getGoodGuyInstance());
+         var degrees = radians * (180 / Math.PI);
+         game.physics.arcade.velocityFromAngle(degrees, 50, singleEnemy.body.velocity);
+      }
+
+      function setHitBoxSizeBasedOnZoom(singleEnemy) {
+         if (TDG.ZOOMED_IN === false) {
+            singleEnemy.body.setSize(50, 80, 13, 0);
+         } else {
+            singleEnemy.body.setSize(150, 250, -40, -90);
+         }
       }
 
       this.getBadGuyGroup = function() {
