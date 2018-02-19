@@ -3,9 +3,9 @@
       var badGuyGroup = game.add.group();
       badGuyGroup.enableBody = true;
       badGuyGroup.physicsBodyType = Phaser.Physics.ARCADE;
-      var BAD_GUY_COUNT = 1;
 
-      for (var i = 0; i < BAD_GUY_COUNT; i++) {
+      //TODO: consider using config files for bad guy placement instead of random
+      for (var i = 0; i < TDG.BAD_GUY_COUNT; i++) {
          var badGuy = badGuyGroup.create(game.world.randomX, game.world.randomY, 'guy');
       }
 
@@ -21,9 +21,10 @@
 
       function setBadGuyVelocity(goodGuy, singleEnemy) {
          var radians = game.physics.arcade.angleBetween(singleEnemy, goodGuy.getGoodGuyInstance());
-         var degrees = radians * (180 / Math.PI);
+         //TODO: the number here may cause some interesting behavior, test out 
+         var degrees = radians * (100 / Math.PI);
          //number is speed here
-         game.physics.arcade.velocityFromAngle(degrees, 10, singleEnemy.body.velocity);
+         game.physics.arcade.velocityFromAngle(degrees, TDG.CHASE_SPEED, singleEnemy.body.velocity);
       }
 
       function setHitBoxSizeBasedOnZoom(singleEnemy) {

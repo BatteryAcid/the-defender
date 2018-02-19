@@ -1,6 +1,6 @@
 (function() {
-   var GoodGuy = function(game, camera) {
-      var goodGuyInstance = camera.create(TDG.GAME_WIDTH / 2, TDG.GAME_HEIGHT - 50, 'goodguy');
+   var GoodGuy = function(game) {
+      var goodGuyInstance = game.add.image(TDG.GAME_WIDTH / 2, TDG.GAME_HEIGHT - 50, 'goodguy');
       goodGuyInstance.anchor.setTo(0, 0.1); //makes sure the bad guys always go to goodGuys center
       goodGuyInstance.scale.setTo(1);
 

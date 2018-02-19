@@ -1,43 +1,28 @@
 (function() {
-   var Main = function(game) {
-      console.log("constructor");
-      this.game = game;
-      // this.debugText = "";
-   };
+   var Main = function() {};
    Main.prototype = {
-      preload: function(game) {
+      preload: function() {
          this.debugText = "";
-         this.camera = new TDG.Camera(this.game);
+         this.zoom = new TDG.Zoom(this.game);
          this.bullets = new TDG.Bullets(this.game);
-         this.input = new TDG.Input(this.game, this.camera, this.bullets);
+         this.input = new TDG.Input(this.game, this.zoom, this.bullets);
          this.badGuys = new TDG.BadGuys(this.game);
       },
       create: function() {
-         this.camera.x = 0;
-         this.camera.y = 0;
-
-         var background = this.camera.create(0, TDG.GAME_HEIGHT, 'background');
+         var background = this.game.add.image(0, TDG.GAME_HEIGHT, 'background');
          background.width = TDG.GAME_WIDTH;
          background.height = TDG.GAME_HEIGHT;
          background.anchor.y = 1;
 
-         this.goodGuy = new TDG.GoodGuy(this.game, this.camera);
-
+         //had to create this group so that the bullets appear on top of background
+         this.gameGroup = this.game.add.group();
+         this.goodGuy = new TDG.GoodGuy(this.game, this.zoom);
          this.level = new TDG.Level();
 
+         this.gameGroup.add(this.bullets.getBulletGroup());
+         this.gameGroup.add(this.badGuys.getBadGuyGroup());
+
          this.game.input.onTap.add(this.input.onTap.bind(this.input));
-
-         this.camera.add(this.badGuys.getBadGuyGroup());
-
-         // TDG.REF = this.camera.create(TDG.GAME_WIDTH / 2, TDG.GAME_HEIGHT - 50, 'goodguy');
-         // // this.camera.add(TDG.REF);
-         // TDG.REF.anchor.setTo(0.5, 0.5);
-         // TDG.REF.scale.setTo(1);
-         this.camera.add(this.bullets.getBulletGroup());
-
-         // this.debugText = this.game.add.text(20, 20, this.sprite.y, {
-         //    fontSize: '50px'
-         // });
       },
       //TODO: need overlap detection, this seems to fail sometimes
       hitSprite: function(sprite1, sprite2) {
@@ -58,10 +43,13 @@
             null, this);
       },
       render: function() {
-         //debug:
+         //debug --------------------------------------------------------------
+         // this.game.debug.cameraInfo(this.game.camera, 32, 32);
+         // this.game.debug.text(this.game.input.activePointer.x, 32, 200);
+         // this.game.debug.text(this.game.input.activePointer.worldX, 32, 220);
          // this.badGuys.getBadGuyGroup().forEach(function(singleEnemy) {
          //    this.game.debug.body(singleEnemy);
-         //    }, this.game.physics);
+         // }, this.game.physics);
       }
    };
 

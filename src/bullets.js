@@ -29,20 +29,25 @@
       this.setNextFire = function(nextFireToSet) {
          nextFire = nextFireToSet;
       }
-   };
 
-   Bullets.prototype = {
-      fire: function(pointer) {
+      this.fire = function(pointer) {
          if (this.game.time.now > this.getNextFire() && this.getBulletGroup().countDead() > 0) {
             this.setNextFire(this.game.time.now + this.getFireRate());
             var bullet = this.getBulletGroup().getFirstDead();
             bullet.reset(TDG.GAME_WIDTH / 2, TDG.GAME_HEIGHT - 20);
             bullet.scale.setTo(2, 2);
-            bullet.lifespan = 3000; //kills bullet instead of using bound checks
-            this.game.physics.arcade.moveToPointer(bullet, 1500); //speed
+            bullet.lifespan = 3000; //kills bullet after duration instead of using bound checks
+            this.game.physics.arcade.moveToXY(bullet, this.game.input.activePointer.worldX / TDG.SCALE_FOR_ZOOM,
+               this.game.input
+               .activePointer.worldY / TDG.SCALE_FOR_ZOOM, TDG.BULLET_SPEED);
+
+            //shake effect for fun
+            this.game.camera.shake(.02, 100);
          }
       }
    };
+
+   Bullets.prototype = {};
 
    TDG.Bullets = Bullets;
 })();

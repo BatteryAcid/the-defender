@@ -36,7 +36,6 @@
          // });
       },
       actionOnClick: function() {
-         console.log("clicked");
          this.game.state.start('main', true, false, this.gameWidth, this.gameHeight);
       }
    };
