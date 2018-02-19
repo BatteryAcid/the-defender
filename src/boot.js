@@ -35,7 +35,7 @@
       preload: function() {
          this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL; 
          this.game.load.image('guy', 'images/guy.png');
-         this.game.load.image('victim', 'images/victim.png');
+         this.game.load.image('goodguy', 'images/goodguy.png');
          this.game.load.image('background', 'images/background.png');
          this.game.load.image('bullet', 'images/purple_ball.png');
          //TODO: this.game.load.image('menu-bg', 'assets/images/menu-bg.jpg');
@@ -48,8 +48,7 @@
 
          this.game.state.start('main-menu', true, false, TDG.GAME_WIDTH, TDG.GAME_HEIGHT);
       },
-      update: function() {
-      },
+      update: function() {},
       gameResized: function(width, height) {
          //  This could be handy if you need to do any extra processing if the game resizes.
          //  A resize could happen if for example swapping orientation on a device or resizing the browser window.
@@ -65,8 +64,8 @@
       },
       render: function() {
          // game.debug.text("Click to toggle! Sorting enabled: " + sorted, 2, 36, "#ffffff");
-         this.game.debug.text((this.game.time.fps || '--') + TDG.GAME_WIDTH + ", " + TDG.GAME_HEIGHT, 2, 14,
-            "#a7aebe");
+         // this.game.debug.text((this.game.time.fps || '--') + TDG.GAME_WIDTH + ", " + TDG.GAME_HEIGHT, 2, 14,
+         // "#a7aebe");
 
          //debug points
          // var point = new Phaser.Rectangle( game.world.centerX, game.world.centerY, 25, 25 ) ;

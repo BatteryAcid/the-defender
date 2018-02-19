@@ -1,57 +1,55 @@
 (function() {
-   var Main = function(game) {
-      console.log("constructor");
-      this.game = game;
-      // this.debugText = "";
-   };
+   var Main = function() {};
    Main.prototype = {
-      preload: function(game) {
+      preload: function() {
          this.debugText = "";
-         this.camera = new TDG.Camera(this.game);
-         this.gun = new TDG.Gun(this.game, this.camera);
-         this.gun.create();
-         this.input = new TDG.Input(this.game, this.camera, this.gun);
-         this.sprite, this.sprite2, this.sprite3;
+         this.zoom = new TDG.Zoom(this.game);
+         this.bullets = new TDG.Bullets(this.game);
+         this.input = new TDG.Input(this.game, this.zoom, this.bullets);
+         this.badGuys = new TDG.BadGuys(this.game);
       },
       create: function() {
-         this.camera.x = 0;
-         this.camera.y = 0;
-
-         var background = this.camera.create(0, TDG.GAME_HEIGHT, 'background');
+         var background = this.game.add.image(0, TDG.GAME_HEIGHT, 'background');
          background.width = TDG.GAME_WIDTH;
          background.height = TDG.GAME_HEIGHT;
          background.anchor.y = 1;
 
-         this.sprite = this.camera.create(700, 800, 'guy');
-         this.sprite2 = this.camera.create(1000, 700, 'guy');
-         this.sprite3 = this.camera.create(1200, 800, 'guy');
-
-         this.sprite.anchor.setTo(0.5, 0.5);
-         this.sprite2.anchor.setTo(0.5, 0.5);
-         this.sprite3.anchor.setTo(0.5, 0.5);
-         this.sprite.scale.setTo(1);
-         this.sprite2.scale.setTo(1);
-         this.sprite3.scale.setTo(1);
-
-         this.victim = new TDG.Victim(this.game, this.camera);
-
+         //had to create this group so that the bullets appear on top of background
+         this.gameGroup = this.game.add.group();
+         this.goodGuy = new TDG.GoodGuy(this.game, this.zoom);
          this.level = new TDG.Level();
 
+         this.gameGroup.add(this.bullets.getBulletGroup());
+         this.gameGroup.add(this.badGuys.getBadGuyGroup());
+
          this.game.input.onTap.add(this.input.onTap.bind(this.input));
-
-         // this.debugText = this.game.add.text(20, 20, this.sprite.y, {
-         //    fontSize: '50px'
-         // });
-
+      },
+      //TODO: need overlap detection, this seems to fail sometimes
+      hitSprite: function(sprite1, sprite2) {
+         console.log("collision");
+         // remove bullet and bad guy
+         sprite1.kill();
+         sprite2.kill();
       },
       update: function() {
-         if (!this.level.levelEnded(this.victim.currentHeight())) {
-            this.victim.move();
+         if (!this.level.levelEnded(this.goodGuy.currentHeight())) {
+            this.goodGuy.move();
+            this.badGuys.pursueGoodGuy(this.goodGuy);
          } else {
             this.game.state.start('level-complete-menu');
          }
 
-         // this.debugText.setText(this.sprite.y);
+         this.game.physics.arcade.collide(this.badGuys.getBadGuyGroup(), this.bullets.getBulletGroup(), this.hitSprite,
+            null, this);
+      },
+      render: function() {
+         //debug --------------------------------------------------------------
+         // this.game.debug.cameraInfo(this.game.camera, 32, 32);
+         // this.game.debug.text(this.game.input.activePointer.x, 32, 200);
+         // this.game.debug.text(this.game.input.activePointer.worldX, 32, 220);
+         // this.badGuys.getBadGuyGroup().forEach(function(singleEnemy) {
+         //    this.game.debug.body(singleEnemy);
+         // }, this.game.physics);
       }
    };
 
