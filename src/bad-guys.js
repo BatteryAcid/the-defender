@@ -22,7 +22,7 @@
       function setBadGuyVelocity(goodGuy, singleEnemy) {
          var radians = game.physics.arcade.angleBetween(singleEnemy, goodGuy.getGoodGuyInstance());
          //TODO: the number here may cause some interesting behavior, test out 
-         var degrees = radians * (100 / Math.PI);
+         var degrees = radians * (180 / Math.PI);
          //number is speed here
          game.physics.arcade.velocityFromAngle(degrees, TDG.CHASE_SPEED, singleEnemy.body.velocity);
       }

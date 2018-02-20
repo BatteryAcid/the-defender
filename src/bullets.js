@@ -36,6 +36,8 @@
             var bullet = this.getBulletGroup().getFirstDead();
             bullet.reset(TDG.GAME_WIDTH / 2, TDG.GAME_HEIGHT - 20);
             bullet.scale.setTo(2, 2);
+            //TODO: hitbox will most likely change based on final bullet design
+            bullet.body.setSize(50, 50, -20, -20);
             bullet.lifespan = 3000; //kills bullet after duration instead of using bound checks
             this.game.physics.arcade.moveToXY(bullet, this.game.input.activePointer.worldX / TDG.SCALE_FOR_ZOOM,
                this.game.input

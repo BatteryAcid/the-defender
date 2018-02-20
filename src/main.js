@@ -24,7 +24,6 @@
 
          this.game.input.onTap.add(this.input.onTap.bind(this.input));
       },
-      //TODO: need overlap detection, this seems to fail sometimes
       hitSprite: function(sprite1, sprite2) {
          console.log("collision");
          // remove bullet and bad guy
@@ -39,8 +38,18 @@
             this.game.state.start('level-complete-menu');
          }
 
-         this.game.physics.arcade.collide(this.badGuys.getBadGuyGroup(), this.bullets.getBulletGroup(), this.hitSprite,
-            null, this);
+         this.game.physics.arcade.overlap(
+            this.badGuys.getBadGuyGroup(), this.bullets.getBulletGroup(), this.hitSprite, null, this
+         );
+
+         //scales bullet's hitbox based on zoom 
+         this.bullets.getBulletGroup().forEach(function(bullet) {
+            if (TDG.ZOOMED_IN === false) {
+               bullet.body.setSize(10, 10, 5, 5);
+            } else {
+               bullet.body.setSize(50, 50, -20, -20);
+            }
+         }, this.game.physics);
       },
       render: function() {
          //debug --------------------------------------------------------------
@@ -49,6 +58,10 @@
          // this.game.debug.text(this.game.input.activePointer.worldX, 32, 220);
          // this.badGuys.getBadGuyGroup().forEach(function(singleEnemy) {
          //    this.game.debug.body(singleEnemy);
+         // }, this.game.physics);
+
+         // this.bullets.getBulletGroup().forEach(function(bullet) {
+         //    this.game.debug.body(bullet);
          // }, this.game.physics);
       }
    };

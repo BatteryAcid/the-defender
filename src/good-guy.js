@@ -16,7 +16,7 @@
       }
 
       this.move = function() {
-         goodGuyInstance.y -= .1;
+         goodGuyInstance.y -= TDG.GOOD_GUY_SPEED;
       }
    };
 
