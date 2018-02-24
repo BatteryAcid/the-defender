@@ -1,6 +1,7 @@
 (function() {
-   var LevelCompleteMenu = function(game) {
+   var LevelCompleteMenu = function(game, zoom) {
       this.game = game;
+      this.zoom = zoom;
    };
    LevelCompleteMenu.prototype = {
       init: function() {
@@ -16,7 +17,7 @@
 
       create: function() {
          this.game.stage.disableVisibilityChange = true;
-         this.game.add.sprite(0, 0, 'menu-bg');
+         // this.game.add.sprite(0, 0, 'menu-bg');
          this.game.add.existing(this.titleText);
 
          this.game.add.button(this.game.world.centerX - 95, 400, 'button', this.actionOnClick, this, 2, 1, 0);

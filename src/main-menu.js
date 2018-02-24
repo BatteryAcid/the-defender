@@ -22,21 +22,15 @@
          this.game.add.sprite(0, 0, 'menu-bg');
          this.game.add.existing(this.titleText);
 
-         this.game.add.button(this.game.world.centerX - 95, 400, 'button', this.actionOnClick, this, 2, 1, 0);
-
-         // this.addMenuOption('Start', function() {
-         //    // this.game.state.start("main");
-         //    this.game.state.start('main', true, false, this.gameWidth, this.gameHeight);
-         // });
-         // this.addMenuOption('Options', function() {
-         //    this.game.state.start("Options");
-         // });
-         // this.addMenuOption('Credits', function() {
-         //    this.game.state.start("Credits");
-         // });
+         var topMargin = TDG.GAME_HEIGHT * .20;
+         this.game.add.button(this.game.world.centerX - 95, topMargin, 'button', this.beginPlay, this, 2, 1, 0);
+         this.game.add.button(this.game.world.centerX - 95, topMargin + 120, 'button', this.showLevelMenu, this, 2, 1, 0);
       },
-      actionOnClick: function() {
+      beginPlay: function() {
          this.game.state.start('main', true, false, this.gameWidth, this.gameHeight);
+      },
+      showLevelMenu: function() {
+         this.game.state.start('level-menu', true, false, this.gameWidth, this.gameHeight);
       }
    };
 

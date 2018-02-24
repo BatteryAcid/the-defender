@@ -28,11 +28,12 @@ window.onload = function() {
    })();
 };
 
+//TODO: populate with config file
 TDG.GAME_WIDTH;
 TDG.GAME_HEIGHT;
 TDG.ZOOMED_IN = false;
 TDG.SCALE_FOR_ZOOM = 4;
-TDG.CHASE_SPEED = 100;
+TDG.CHASE_SPEED = 50;
 TDG.BAD_GUY_COUNT = 5;
-TDG.GOOD_GUY_SPEED = 1.5;
+TDG.GOOD_GUY_SPEED = .5;
 TDG.BULLET_SPEED = 700;
