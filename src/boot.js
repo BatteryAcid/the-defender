@@ -44,7 +44,7 @@
       create: function() {
          this.game.state.add('main', TDG.Main);
          this.game.state.add('main-menu', TDG.MainMenu);
-         this.game.state.add('level-complete-menu', TDG.LevelCompleteMenu);
+         // this.game.state.add('level-complete-menu', TDG.LevelCompleteMenu);
          this.game.state.add("level-menu", TDG.LevelMenu);
 
          this.game.state.start('main-menu', true, false, TDG.GAME_WIDTH, TDG.GAME_HEIGHT);

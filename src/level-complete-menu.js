@@ -1,3 +1,4 @@
+//TODO: currently not used and may be removed
 (function() {
    var LevelCompleteMenu = function(game, zoom) {
       this.game = game;

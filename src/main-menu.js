@@ -1,3 +1,5 @@
+//TODO: add params here: to indicate success/failure of play
+// http://www.html5gamedevs.com/topic/4702-states-with-parameters/
 (function() {
    var MainMenu = function(game) {
       this.game = game;

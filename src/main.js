@@ -19,14 +19,14 @@
          //had to create this group so that the bullets appear on top of background
          this.gameGroup = this.game.add.group();
          this.goodGuy = new TDG.GoodGuy(this.game, this.zoom);
-         this.level = new TDG.Level();
+         this.levelManager = new TDG.LevelManager();
 
          this.gameGroup.add(this.bullets.getBulletGroup());
          this.gameGroup.add(this.badGuys.getBadGuyGroup());
 
          this.game.input.onTap.add(this.input.onTap.bind(this.input));
 
-         this.badGuys.setupBadGuysForLevel(this.level.getCurrentLevel());
+         this.badGuys.setupBadGuysForLevel(this.levelManager.getSelectedLevel());
       },
       badGuyHit: function(sprite1, sprite2) {
          console.log("bad guy hit");
@@ -35,26 +35,28 @@
          sprite2.kill();
 
          if (this.badGuys.badGuysDefeated() === true) {
-            this.game.state.start('level-complete-menu', true, false);
+            this.game.state.start('main-menu', true, false);
             this.levelComplete();
          }
       },
       goodGuyHit: function() {
          console.log("good guy hit");
-         //TODO: level failed
-         this.game.state.start('level-complete-menu');
+         //TODO: pass level failed param
+         this.game.state.start('main-menu');
       },
       levelComplete: function() {
-         this.zoom.zoomTo(1, null);
-         TDG.ZOOMED_IN = false;
-         this.level.setMaxLevel();
+         if (TDG.ZOOMED_IN === true) {
+            this.zoom.zoomTo(1, null);
+            TDG.ZOOMED_IN = false;
+         }
+         this.levelManager.setMaxLevel();
       },
       update: function() {
-         if (!this.level.levelEnded(this.goodGuy.currentHeight())) {
+         if (!this.levelManager.levelEnded(this.goodGuy.currentHeight())) {
             this.goodGuy.move();
             this.badGuys.pursueGoodGuy(this.goodGuy);
          } else {
-            this.game.state.start('level-complete-menu');
+            this.game.state.start('main-menu');
          }
 
          this.game.physics.arcade.overlap(
