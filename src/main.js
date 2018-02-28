@@ -30,7 +30,6 @@
          this.scope = new TDG.Scope(this.game);
          this.input = new TDG.Input(this.game, this.zoom, this.bullets, this.scope);
          this.game.input.onTap.add(this.input.onTap.bind(this.input));
-
       },
       badGuyHit: function(sprite1, sprite2) {
          console.log("bad guy hit");
@@ -44,6 +43,7 @@
          }
       },
       goodGuyHit: function() {
+         //TODO: pass level failed param  
          console.log("good guy hit");
          this.game.state.start('main-menu', true, false);
          this.levelComplete();
@@ -89,7 +89,6 @@
          // this.badGuys.getBadGuyGroup().forEach(function(singleEnemy) {
          //    this.game.debug.body(singleEnemy);
          // }, this.game.physics);
-
          // this.bullets.getBulletGroup().forEach(function(bullet) {
          //    this.game.debug.body(bullet);
          // }, this.game.physics);
