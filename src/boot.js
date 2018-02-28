@@ -36,7 +36,7 @@
          this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL; 
          this.game.load.image('guy', 'images/guy.png');
          this.game.load.image('goodguy', 'images/goodguy.png');
-         this.game.load.image('background', 'images/background.png');
+         this.game.load.image('background', 'images/bg1.png');
          this.game.load.image('bullet', 'images/purple_ball.png');
          //TODO: this.game.load.image('menu-bg', 'assets/images/menu-bg.jpg');
          this.game.load.spritesheet('button', 'images/button.png', 193, 71);
@@ -44,7 +44,8 @@
       create: function() {
          this.game.state.add('main', TDG.Main);
          this.game.state.add('main-menu', TDG.MainMenu);
-         this.game.state.add('level-complete-menu', TDG.LevelCompleteMenu);
+         // this.game.state.add('level-complete-menu', TDG.LevelCompleteMenu);
+         this.game.state.add("level-menu", TDG.LevelMenu);
 
          this.game.state.start('main-menu', true, false, TDG.GAME_WIDTH, TDG.GAME_HEIGHT);
       },
