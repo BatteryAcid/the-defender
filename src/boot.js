@@ -38,6 +38,7 @@
          this.game.load.image('goodguy', 'images/goodguy.png');
          this.game.load.image('background', 'images/bg1.png');
          this.game.load.image('bullet', 'images/purple_ball.png');
+         this.game.load.image('scope', 'images/scope.png');
          //TODO: this.game.load.image('menu-bg', 'assets/images/menu-bg.jpg');
          this.game.load.spritesheet('button', 'images/button.png', 193, 71);
       },
