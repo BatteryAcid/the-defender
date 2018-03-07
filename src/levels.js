@@ -19,7 +19,7 @@
                scale: .5
             },
             background: "bg1.png",
-            menuColor: "0xac81bd"
+            menuColor: "0x00CC99"
          },
          1: {
             badGuyLocationX: function(count) {
