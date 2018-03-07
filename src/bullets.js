@@ -36,10 +36,15 @@
             var bullet = this.getBulletGroup().getFirstDead();
             bullet.reset(TDG.GAME_WIDTH / 2, TDG.GAME_HEIGHT - 20);
             bullet.scale.setTo(2, 2);
+            //TODO: hitbox will most likely change based on final bullet design
+            bullet.body.setSize(50, 50, -20, -20);
             bullet.lifespan = 3000; //kills bullet after duration instead of using bound checks
-            this.game.physics.arcade.moveToXY(bullet, this.game.input.activePointer.worldX / TDG.SCALE_FOR_ZOOM,
-               this.game.input
-               .activePointer.worldY / TDG.SCALE_FOR_ZOOM, TDG.BULLET_SPEED);
+            // this.game.physics.arcade.moveToXY(bullet, this.game.input.activePointer.worldX / TDG.SCALE_FOR_ZOOM,
+            //    this.game.input
+            //    .activePointer.worldY / TDG.SCALE_FOR_ZOOM, TDG.BULLET_SPEED);
+            //Bullets move towards center of scope
+            this.game.physics.arcade.moveToXY(bullet, TDG.SCOPE.x / TDG.SCALE_FOR_ZOOM,
+               TDG.SCOPE.y / TDG.SCALE_FOR_ZOOM, TDG.BULLET_SPEED);
 
             //shake effect for fun
             this.game.camera.shake(.02, 100);
