@@ -16,7 +16,7 @@
          this.titleText = this.game.make.text(this.game.world.centerX, TDG.GAME_HEIGHT * .1 + 20,
             "The Defender", {
                font: textSize + "px Arial",
-               fill: '#ff5722',
+               fill: '#e65100',
                align: 'center'
             });
 
@@ -48,18 +48,22 @@
       },
       create: function() {
          this.game.stage.disableVisibilityChange = true;
-         this.game.add.sprite(0, 0, 'menu-bg');
+         var background = this.game.add.image(0, TDG.GAME_HEIGHT, 'menu-bg');
+         background.width = TDG.GAME_WIDTH;
+         background.height = TDG.GAME_HEIGHT;
+         background.anchor.y = 1;
+         // this.game.add.sprite(0, 0, 'menu-bg');
          this.game.add.existing(this.titleText);
          this.game.add.existing(this.stateText);
 
          var buttonHeightY = TDG.GAME_HEIGHT * .08;
          var buttonScale = buttonHeightY / 71;
 
-         var playButton = this.game.add.button(this.game.world.centerX, TDG.GAME_HEIGHT * .5, 'button', this.beginPlay,
+         var playButton = this.game.add.button(this.game.world.centerX, TDG.GAME_HEIGHT * .5, 'start-button', this.beginPlay,
             this, 2, 1,
             0);
          var levelButton = this.game.add.button(this.game.world.centerX, TDG.GAME_HEIGHT * .5 + buttonHeightY +
-            10, 'button', this.showLevelMenu,
+            10, 'levels-button', this.showLevelMenu,
             this, 2, 1, 0);
 
          playButton.scale.setTo(buttonScale, buttonScale);

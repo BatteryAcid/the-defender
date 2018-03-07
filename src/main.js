@@ -33,12 +33,13 @@
 
          var buttonHeightY = TDG.GAME_HEIGHT * .08;
          var buttonScale = buttonHeightY / 90;
-         var quitButton = this.game.add.button(TDG.GAME_WIDTH * .08, TDG.GAME_HEIGHT * .05, 'button', this.goMainMenu,
+         var quitButton = this.game.add.button(TDG.GAME_WIDTH * .08, TDG.GAME_HEIGHT * .05, 'quit-button', this.goMainMenu,
             this, 2, 1, 0);
          quitButton.scale.setTo(buttonScale, buttonScale);
          quitButton.anchor.setTo(0.5, 0.5);
       },
       goMainMenu: function() {
+         this.resetZoom();
          this.game.state.start('main-menu', true, false, TDG.LEVEL_START_STATE);
       },
       badGuyHit: function(sprite1, sprite2) {
@@ -59,11 +60,14 @@
          this.levelComplete();
       },
       levelComplete: function() {
+         this.resetZoom();
+         this.levelManager.setMaxLevel();
+      },
+      resetZoom: function() {
          if (TDG.ZOOMED_IN === true) {
             this.zoom.zoomTo(1, null);
             TDG.ZOOMED_IN = false;
          }
-         this.levelManager.setMaxLevel();
       },
       update: function() {
          if (!this.levelManager.levelEnded(this.goodGuy.currentHeight())) {

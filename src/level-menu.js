@@ -130,7 +130,7 @@
          var buttonHeightY = TDG.GAME_HEIGHT * .08;
          var buttonScale = buttonHeightY / 71;
 
-         var mainMenuButton = this.game.add.button(TDG.GAME_WIDTH * .12, TDG.GAME_HEIGHT * .08, 'button', this
+         var mainMenuButton = this.game.add.button(TDG.GAME_WIDTH * .12, TDG.GAME_HEIGHT * .08, 'back-button', this
             .goMainMenu, this, 2, 1, 0);
          mainMenuButton.scale.setTo(buttonScale, buttonScale);
          mainMenuButton.anchor.setTo(0.5, 0.5);
