@@ -12,7 +12,7 @@
          gameWidth = window.innerHeight * window.devicePixelRatio;
          gameHeight = window.innerWidth * window.devicePixelRatio;
       }
-      console.log("w: " + gameWidth + ", h: " + gameHeight);
+      //console.log("w: " + gameWidth + ", h: " + gameHeight);
       TDG.GAME_WIDTH = gameWidth;
       TDG.GAME_HEIGHT = gameHeight;
 
@@ -48,7 +48,7 @@
          // this.game.state.add('level-complete-menu', TDG.LevelCompleteMenu);
          this.game.state.add("level-menu", TDG.LevelMenu);
 
-         this.game.state.start('main-menu', true, false, TDG.GAME_WIDTH, TDG.GAME_HEIGHT);
+         this.game.state.start('main-menu', true, false);
       },
       update: function() {},
       gameResized: function(width, height) {

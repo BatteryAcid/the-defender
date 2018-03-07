@@ -30,6 +30,16 @@
          this.scope = new TDG.Scope(this.game);
          this.input = new TDG.Input(this.game, this.zoom, this.bullets, this.scope);
          this.game.input.onTap.add(this.input.onTap.bind(this.input));
+
+         var buttonHeightY = TDG.GAME_HEIGHT * .08;
+         var buttonScale = buttonHeightY / 90;
+         var quitButton = this.game.add.button(TDG.GAME_WIDTH * .08, TDG.GAME_HEIGHT * .05, 'button', this.goMainMenu,
+            this, 2, 1, 0);
+         quitButton.scale.setTo(buttonScale, buttonScale);
+         quitButton.anchor.setTo(0.5, 0.5);
+      },
+      goMainMenu: function() {
+         this.game.state.start('main-menu', true, false, TDG.LEVEL_START_STATE);
       },
       badGuyHit: function(sprite1, sprite2) {
          console.log("bad guy hit");
@@ -38,14 +48,14 @@
          sprite2.kill();
 
          if (this.badGuys.badGuysDefeated() === true) {
-            this.game.state.start('main-menu', true, false);
+            this.game.state.start('main-menu', true, false, TDG.LEVEL_COMPLETE_STATE);
             this.levelComplete();
          }
       },
       goodGuyHit: function() {
          //TODO: pass level failed param  
          console.log("good guy hit");
-         this.game.state.start('main-menu', true, false);
+         this.game.state.start('main-menu', true, false, TDG.LEVEL_FAILED_STATE);
          this.levelComplete();
       },
       levelComplete: function() {
@@ -60,7 +70,7 @@
             this.goodGuy.move();
             this.badGuys.pursueGoodGuy(this.goodGuy);
          } else {
-            this.game.state.start('main-menu');
+            this.game.state.start('main-menu', true, false, TDG.LEVEL_COMPLETE_STATE);
          }
 
          this.game.physics.arcade.overlap(

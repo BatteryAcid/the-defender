@@ -29,6 +29,10 @@ window.onload = function() {
 };
 
 //TODO: populate with config file
+TDG.LEVEL_START_STATE = 0;
+TDG.LEVEL_COMPLETE_STATE = 1;
+TDG.LEVEL_FAILED_STATE = 2;
+
 TDG.GAME_WIDTH;
 TDG.GAME_HEIGHT;
 TDG.ZOOMED_IN = false;

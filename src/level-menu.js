@@ -81,9 +81,9 @@
                   // assigning each thumbnail a frame according to its stars value
                   thumb.frame = this.levelManager.getStarRatingForLevel(thumb.levelNumber);
 
-                  var levelText = this.game.add.text(0, 0, thumb.levelNumber, {
-                     font: "36px Arial",
-                     fill: "#000000"
+                  var levelText = this.game.add.text(5, 0, thumb.levelNumber, {
+                     font: "24px Arial",
+                     fill: "#FFFFFF"
                   });
 
                   thumb.scale.setTo(1 * scaleRatio, 1 * scaleRatio);
@@ -124,6 +124,19 @@
                }
             }
          }, this);
+
+         // return to main menu button 
+         // the 71 should be the button height.  .08 is just a good fit for all screens
+         var buttonHeightY = TDG.GAME_HEIGHT * .08;
+         var buttonScale = buttonHeightY / 71;
+
+         var mainMenuButton = this.game.add.button(TDG.GAME_WIDTH * .12, TDG.GAME_HEIGHT * .08, 'button', this
+            .goMainMenu, this, 2, 1, 0);
+         mainMenuButton.scale.setTo(buttonScale, buttonScale);
+         mainMenuButton.anchor.setTo(0.5, 0.5);
+      },
+      goMainMenu: function() {
+         this.game.state.start('main-menu', true, false);
       },
       changePage: function(page) {
          this.currentPage += page;
@@ -133,9 +146,7 @@
             x: this.currentPage * -this.getWorkingWidth()
          }, 300, Phaser.Easing.Cubic.Out, true);
       },
-      render: function() {
-
-      }
+      render: function() {}
    };
 
    TDG.LevelMenu = LevelMenu;
