@@ -1,3 +1,6 @@
+//TODO: setup scoreing
+//TODO: how to account for different size devices?  When percent based placement will make it easier on a larger screen?
+// - is there a way to scale everything back?
 (function() {
    var Main = function() {};
    Main.prototype = {
@@ -20,7 +23,7 @@
 
          //had to create this group so that the bullets appear on top of background
          this.gameGroup = this.game.add.group();
-         this.goodGuy = new TDG.GoodGuy(this.game, this.zoom);
+         this.goodGuy = new TDG.GoodGuy(this.game, this.levels, this.levelManager.getSelectedLevel());
 
          this.gameGroup.add(this.bullets.getBulletGroup());
          this.gameGroup.add(this.badGuys.getBadGuyGroup());
@@ -33,7 +36,8 @@
 
          var buttonHeightY = TDG.GAME_HEIGHT * .08;
          var buttonScale = buttonHeightY / 90;
-         var quitButton = this.game.add.button(TDG.GAME_WIDTH * .08, TDG.GAME_HEIGHT * .05, 'quit-button', this.goMainMenu,
+         var quitButton = this.game.add.button(TDG.GAME_WIDTH * .08, TDG.GAME_HEIGHT * .05, 'quit-button',
+            this.goMainMenu,
             this, 2, 1, 0);
          quitButton.scale.setTo(buttonScale, buttonScale);
          quitButton.anchor.setTo(0.5, 0.5);
@@ -42,22 +46,53 @@
          this.resetZoom();
          this.game.state.start('main-menu', true, false, TDG.LEVEL_START_STATE);
       },
-      badGuyHit: function(sprite1, sprite2) {
+      badGuyHit: function(badguy, bullet) {
          console.log("bad guy hit");
+
+         var badGuyKillSprite = this.game.add.sprite(badguy.x, badguy.y, "badguy-kill");
+         badGuyKillSprite.anchor.setTo(0.5, 0.5);
+         badGuyKillSprite.animations.add('badGuyKill');
+         badGuyKillSprite.animations.play('badGuyKill', 30, false);
+         badGuyKillSprite.scale.setTo(.5);
+         //makes the dead bodies appear in correct layer
+         this.gameGroup.add(badGuyKillSprite);
+
          // remove bullet and bad guy
-         sprite1.kill();
-         sprite2.kill();
+         badguy.kill();
+         bullet.kill();
 
          if (this.badGuys.badGuysDefeated() === true) {
-            this.game.state.start('main-menu', true, false, TDG.LEVEL_COMPLETE_STATE);
-            this.levelComplete();
+            var mainThis = this;
+            setTimeout(function() {
+               mainThis.levelSuccess();
+            }, 1500);
          }
       },
-      goodGuyHit: function() {
-         //TODO: pass level failed param  
-         console.log("good guy hit");
+      levelSuccess: function() {
+         this.game.state.start('main-menu', true, false, TDG.LEVEL_COMPLETE_STATE);
+         this.levelComplete();
+      },
+      levelFail: function() {
          this.game.state.start('main-menu', true, false, TDG.LEVEL_FAILED_STATE);
          this.levelComplete();
+      },
+      goodGuyHit: function(goodGuyKilled, badguy) {
+         console.log("good guy hit");
+
+         var goodGuyKillSprite = this.game.add.sprite(goodGuyKilled.x, goodGuyKilled.y, "goodguy-kill");
+         goodGuyKillSprite.anchor.setTo(0.5, 0.5);
+         goodGuyKillSprite.animations.add('goodGuyKill');
+         goodGuyKillSprite.animations.play('goodGuyKill', 30, false);
+         goodGuyKillSprite.scale.setTo(.5);
+         //makes the dead bodies appear in correct layer
+         this.gameGroup.add(goodGuyKillSprite);
+
+         goodGuyKilled.kill();
+
+         var mainThis = this;
+         setTimeout(function() {
+            mainThis.levelFail();
+         }, 1500);
       },
       levelComplete: function() {
          this.resetZoom();
@@ -74,7 +109,7 @@
             this.goodGuy.move();
             this.badGuys.pursueGoodGuy(this.goodGuy);
          } else {
-            this.game.state.start('main-menu', true, false, TDG.LEVEL_COMPLETE_STATE);
+            this.levelSuccess();
          }
 
          this.game.physics.arcade.overlap(

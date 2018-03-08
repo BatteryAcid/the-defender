@@ -36,6 +36,10 @@
          this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL; 
          this.game.load.image('guy', 'images/guy.png');
          this.game.load.image('goodguy', 'images/goodguy.png');
+         this.game.load.spritesheet('goodguy-walk', 'images/good-guy-walk.png', 43, 62);
+         this.game.load.spritesheet('goodguy-kill', 'images/good-guy-kill.png', 43, 59);
+         this.game.load.spritesheet('badguy-walk', 'images/bad-guy-walk.png', 56.5, 45);
+         this.game.load.spritesheet('badguy-kill', 'images/bad-guy-kill.png', 54, 49);
          this.game.load.image('background', 'images/bg1.jpg');
          this.game.load.image('bullet', 'images/purple_ball.png');
          this.game.load.image('scope', 'images/scope.png');

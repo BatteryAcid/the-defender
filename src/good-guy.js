@@ -1,9 +1,14 @@
 (function() {
-   var GoodGuy = function(game) {
-      var goodGuyInstance = game.add.sprite(TDG.GAME_WIDTH / 2, TDG.GAME_HEIGHT - 50, 'goodguy');
+   var GoodGuy = function(game, levels, levelNumber) {
+      this.levelConfigs = levels.getLevelConfigs(levelNumber);
+
+      var goodGuyInstance = game.add.sprite(this.levelConfigs.goodGuy.locationX(), this.levelConfigs.goodGuy.locationY(), 'goodguy-walk');
       game.physics.enable(goodGuyInstance, Phaser.Physics.ARCADE);
       goodGuyInstance.anchor.setTo(0, 0.1); //makes sure the bad guys always go to goodGuys center
-      goodGuyInstance.scale.setTo(.5);
+      goodGuyInstance.scale.setTo(this.levelConfigs.goodGuy.scale);
+
+      goodGuyInstance.animations.add('goodGuyWalk');
+      goodGuyInstance.animations.play('goodGuyWalk', 30, true);
 
       this.currentHeight = function() {
          return goodGuyInstance.y;
@@ -14,7 +19,8 @@
       }
 
       this.move = function() {
-         goodGuyInstance.y -= TDG.GOOD_GUY_SPEED;
+         this.levelConfigs.goodGuy.move(goodGuyInstance);
+
          if (TDG.ZOOMED_IN === false) {
             goodGuyInstance.body.setSize(75, 100, 0, -10);
          } else {

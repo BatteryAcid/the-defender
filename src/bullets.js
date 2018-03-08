@@ -30,12 +30,14 @@
          nextFire = nextFireToSet;
       }
 
+      //TODO: for fire on zoom in, maybe we can detect that last first and negate it?
       this.fire = function(pointer) {
          if (this.game.time.now > this.getNextFire() && this.getBulletGroup().countDead() > 0) {
             this.setNextFire(this.game.time.now + this.getFireRate());
             var bullet = this.getBulletGroup().getFirstDead();
             bullet.reset(TDG.GAME_WIDTH / 2, TDG.GAME_HEIGHT - 20);
-            bullet.scale.setTo(2, 2);
+            //debugging bullet.scale.setTo(2, 2);
+            bullet.scale.setTo(0, .03);
             //TODO: hitbox will most likely change based on final bullet design
             bullet.body.setSize(50, 50, -20, -20);
             bullet.lifespan = 3000; //kills bullet after duration instead of using bound checks

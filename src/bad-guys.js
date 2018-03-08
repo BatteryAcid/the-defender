@@ -22,6 +22,8 @@
             var badGuy = badGuyGroup.create(levelConfigs.badGuyLocationX(i), levelConfigs.badGuyLocationY(i),
                levelConfigs.badGuys.image);
             badGuy.scale.setTo(levelConfigs.badGuys.scale);
+            badGuy.animations.add(levelConfigs.badGuys.animation);
+            badGuy.animations.play(levelConfigs.badGuys.animation, 30, true);
          }
 
          badGuyGroup.setAll('anchor.x', 0.5);
