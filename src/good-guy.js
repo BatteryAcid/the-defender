@@ -14,6 +14,10 @@
          return goodGuyInstance.y;
       }
 
+      this.currentWidth = function() {
+         return goodGuyInstance.x;
+      }
+
       this.getGoodGuyInstance = function() {
          return goodGuyInstance;
       }

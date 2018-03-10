@@ -49,6 +49,8 @@
             this, 2, 1, 0);
          quitButton.scale.setTo(buttonScale, buttonScale);
          quitButton.anchor.setTo(0.5, 0.5);
+
+         this.levelConfigs = this.levels.getLevelConfigs(this.levelManager.getSelectedLevel());
       },
       quitPlay: function() {
          this.levelStatus = "quit";
@@ -120,7 +122,9 @@
          }
       },
       update: function() {
-         if (!this.levelManager.levelEnded(this.goodGuy.currentHeight())) {
+         // check if good guy reached finish
+         if (this.goodGuy.currentHeight() > this.levelConfigs.goodGuy.successY && this.goodGuy.currentWidth() <
+            this.levelConfigs.goodGuy.successX) {
             this.goodGuy.move();
             this.badGuys.pursueGoodGuy(this.goodGuy);
          } else {

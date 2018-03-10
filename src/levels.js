@@ -26,7 +26,9 @@
                },
                move: function(goodGuyInstance) {
                   goodGuyInstance.x += .3;
-               }
+               },
+               successX: TDG.GAME_WIDTH - (TDG.GAME_WIDTH * .1),
+               successY: TDG.GAME_HEIGHT * .1
             },
             background: "bg1.png",
             menuColor: "0x00CC99"
@@ -55,7 +57,9 @@
                },
                move: function(goodGuyInstance) {
                   goodGuyInstance.x += .3;
-               }
+               },
+               successX: TDG.GAME_WIDTH - (TDG.GAME_WIDTH * .01),
+               successY: TDG.GAME_HEIGHT * .1
             },
             background: "bg1.png",
             menuColor: "0xff5050"
@@ -84,7 +88,9 @@
                },
                move: function(goodGuyInstance) {
                   goodGuyInstance.x += .3
-               }
+               },
+               successX: TDG.GAME_WIDTH - (TDG.GAME_WIDTH * .01),
+               successY: TDG.GAME_HEIGHT * .1
             },
             background: "bg1.png",
             menuColor: "0xff5050"
@@ -113,7 +119,9 @@
                },
                move: function(goodGuyInstance) {
                   goodGuyInstance.x += .3
-               }
+               },
+               successX: TDG.GAME_WIDTH - (TDG.GAME_WIDTH * .01),
+               successY: TDG.GAME_HEIGHT * .1
             },
             background: "bg1.png",
             menuColor: "0xff5050"
@@ -142,7 +150,9 @@
                },
                move: function(goodGuyInstance) {
                   goodGuyInstance.x += .3;
-               }
+               },
+               successX: TDG.GAME_WIDTH - (TDG.GAME_WIDTH * .01),
+               successY: TDG.GAME_HEIGHT * .1
             },
             background: "bg1.png",
             menuColor: "0xff5050"

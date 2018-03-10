@@ -60,33 +60,26 @@
    LevelManager.prototype = {
       setMaxLevel: function(isLevelSuccess) {
          if (isLevelSuccess === true) {
-         //flag current level as complete
-         //TODO: will need to revisit for star rating
-         var starsToUpdate = this.getStars();
-         starsToUpdate[this.getSelectedLevel()] = 1;
+            //flag current level as complete
+            //TODO: will need to revisit for star rating
+            var starsToUpdate = this.getStars();
+            starsToUpdate[this.getSelectedLevel()] = 1;
 
             //update to next level, set to 0 to unlock it
-         var nextLevel = parseInt(this.getSelectedLevel());
-         if (parseInt(this.getSelectedLevel()) < this.getLevelCount() - 1) {
-            nextLevel = parseInt(this.getSelectedLevel()) + 1;
+            var nextLevel = parseInt(this.getSelectedLevel());
+            if (parseInt(this.getSelectedLevel()) < this.getLevelCount() - 1) {
+               nextLevel = parseInt(this.getSelectedLevel()) + 1;
 
                //don't unlock unless not unlocked
                if (starsToUpdate[nextLevel] < 0) {
-            starsToUpdate[nextLevel] = 0;
-         }
+                  starsToUpdate[nextLevel] = 0;
+               }
             }
 
-         localStorage.setItem(this.getLocalStorageName(), starsToUpdate.toString());
-         this.setSelectedLevel(nextLevel);
+            localStorage.setItem(this.getLocalStorageName(), starsToUpdate.toString());
+            this.setSelectedLevel(nextLevel);
          }
          // no update if level failed
-      },
-      levelEnded: function(goodGuyCurrentHeight) {
-         if (goodGuyCurrentHeight > this.levelHeight) {
-            return false;
-         } else {
-            return true;
-         }
       }
    };
 
