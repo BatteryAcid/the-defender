@@ -97,7 +97,7 @@
                return TDG.GAME_HEIGHT * .6;
             },
             badGuys: {
-               count: 5,
+               count: 4,
                scale: .5,
                image: 'badguy-walk',
                animation: 'badGuyWalk',

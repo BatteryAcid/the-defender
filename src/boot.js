@@ -49,11 +49,11 @@
          this.game.load.spritesheet('quit-button', 'images/quit.png', 193, 71);
          this.game.load.spritesheet('back-button', 'images/back.png', 193, 71);
          this.game.load.spritesheet('levels-button', 'images/levels.png', 193, 71);
+         this.game.load.spritesheet('playagain-button', 'images/playagain.png', 193, 71);
       },
       create: function() {
          this.game.state.add('main', TDG.Main);
          this.game.state.add('main-menu', TDG.MainMenu);
-         // this.game.state.add('level-complete-menu', TDG.LevelCompleteMenu);
          this.game.state.add("level-menu", TDG.LevelMenu);
 
          this.game.state.start('main-menu', true, false);

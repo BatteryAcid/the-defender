@@ -1,12 +1,3 @@
-//TODO: set bad guys around map edge so player has time to react
-//- dont send all bad guys at once, delay each guy but speed up his approach rate
-//- bad guy should do dmg when next to good guy
-//- good guy should try to avoid bad guys? maybe just set varying path
-//- bad guys at different Y will be at different sizes
-//- consider placing objects in reference to screen center point
-
-//TODO left off here
-//- figure out how to make main.js build everything, level, good/bad guys, bullets, etc based on level configs
 (function() {
    var BadGuys = function(game, levels) {
       var levelConfigs;

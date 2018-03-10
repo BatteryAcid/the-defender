@@ -1,5 +1,3 @@
-//TODO: add params here: to indicate success/failure of play
-// http://www.html5gamedevs.com/topic/4702-states-with-parameters/
 (function() {
    var MainMenu = function(game) {
       this.game = game;
@@ -12,6 +10,8 @@
          var textHeightY = TDG.GAME_HEIGHT * .08;
          var textScale = textHeightY / 80;
          var textSize = textScale * 100;
+
+         this.levelManager = new TDG.LevelManager();
 
          this.titleText = this.game.make.text(this.game.world.centerX, TDG.GAME_HEIGHT * .1 + 20,
             "The Defender", {
@@ -45,6 +45,9 @@
          this.stateText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
          this.stateText.anchor.set(0.5);
 
+         this.getState = function() {
+            return state;
+         }
       },
       create: function() {
          this.game.stage.disableVisibilityChange = true;
@@ -52,14 +55,15 @@
          background.width = TDG.GAME_WIDTH;
          background.height = TDG.GAME_HEIGHT;
          background.anchor.y = 1;
-         // this.game.add.sprite(0, 0, 'menu-bg');
+
          this.game.add.existing(this.titleText);
          this.game.add.existing(this.stateText);
 
          var buttonHeightY = TDG.GAME_HEIGHT * .08;
          var buttonScale = buttonHeightY / 71;
 
-         var playButton = this.game.add.button(this.game.world.centerX, TDG.GAME_HEIGHT * .5, 'start-button', this.beginPlay,
+         var playButton = this.game.add.button(this.game.world.centerX, TDG.GAME_HEIGHT * .5, 'start-button',
+            this.beginPlay,
             this, 2, 1,
             0);
          var levelButton = this.game.add.button(this.game.world.centerX, TDG.GAME_HEIGHT * .5 + buttonHeightY +
@@ -71,12 +75,32 @@
 
          levelButton.scale.setTo(buttonScale, buttonScale);
          levelButton.anchor.setTo(0.5, 0.5);
+
+         if (this.getState() !== undefined && this.getState() !== 0) {
+            var playAgain = this.game.add.button(this.game.world.centerX, TDG.GAME_HEIGHT * .7, 'playagain-button',
+               this.playAgain,
+               this, 2, 1,
+               0);
+            playAgain.scale.setTo(buttonScale, buttonScale);
+            playAgain.anchor.setTo(0.5, 0.5);
+         }
       },
       beginPlay: function() {
-         this.game.state.start('main', true, false, this.gameWidth, this.gameHeight);
+         this.game.state.start('main', true, false);
       },
       showLevelMenu: function() {
-         this.game.state.start('level-menu', true, false, this.gameWidth, this.gameHeight);
+         this.game.state.start('level-menu', true, false);
+      },
+      playAgain: function() {
+         var currentLevel = this.levelManager.getSelectedLevel();
+         if (this.getState() === TDG.LEVEL_COMPLETE_STATE) {
+            if (parseInt(this.levelManager.getSelectedLevel()) !== this.levelManager.getLevelCount() - 1) {
+               // don't change if max level
+               currentLevel -= 1;
+            }
+         }
+         this.levelManager.setSelectedLevel(currentLevel);
+         this.game.state.start('main', true, false);
       }
    };
 

@@ -24,7 +24,7 @@
          if (TDG.ZOOMED_IN === false) {
             goodGuyInstance.body.setSize(75, 100, 0, -10);
          } else {
-            goodGuyInstance.body.setSize(400, 450, -50, -100);
+            goodGuyInstance.body.setSize(150, 250, 10, -10);
          }
       }
    };

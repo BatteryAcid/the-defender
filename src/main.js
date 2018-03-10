@@ -1,6 +1,13 @@
 //TODO: setup scoreing
 //TODO: how to account for different size devices?  When percent based placement will make it easier on a larger screen?
 // - is there a way to scale everything back?
+// -set bad guys around map edge so player has time to react
+//- dont send all bad guys at once, delay each guy but speed up his approach rate
+//- bad guy should do dmg when next to good guy
+//- good guy should try to avoid bad guys? maybe just set varying path
+//- bad guys at different Y will be at different sizes
+//- consider placing objects in reference to screen center point
+
 (function() {
    var Main = function() {};
    Main.prototype = {
@@ -8,6 +15,7 @@
       create: function() {
          //TODO: set this up as part of level setup function TBD
          this.debugText = "";
+         this.levelStatus = undefined;
          this.zoom = new TDG.Zoom(this.game);
          this.levels = new TDG.Levels(this.game);
          this.levelManager = new TDG.LevelManager();
@@ -37,12 +45,13 @@
          var buttonHeightY = TDG.GAME_HEIGHT * .08;
          var buttonScale = buttonHeightY / 90;
          var quitButton = this.game.add.button(TDG.GAME_WIDTH * .08, TDG.GAME_HEIGHT * .05, 'quit-button',
-            this.goMainMenu,
+            this.quitPlay,
             this, 2, 1, 0);
          quitButton.scale.setTo(buttonScale, buttonScale);
          quitButton.anchor.setTo(0.5, 0.5);
       },
-      goMainMenu: function() {
+      quitPlay: function() {
+         this.levelStatus = "quit";
          this.resetZoom();
          this.game.state.start('main-menu', true, false, TDG.LEVEL_START_STATE);
       },
@@ -69,15 +78,21 @@
          }
       },
       levelSuccess: function() {
-         this.game.state.start('main-menu', true, false, TDG.LEVEL_COMPLETE_STATE);
-         this.levelComplete();
+         if (this.levelStatus !== "failed" || this.levelStatus !== "quit") {
+            this.game.state.start('main-menu', true, false, TDG.LEVEL_COMPLETE_STATE);
+            this.levelComplete(true);
+         }
       },
       levelFail: function() {
+         if (this.levelStatus !== "quit") {
          this.game.state.start('main-menu', true, false, TDG.LEVEL_FAILED_STATE);
-         this.levelComplete();
+            this.levelComplete(false);
+         }
       },
       goodGuyHit: function(goodGuyKilled, badguy) {
          console.log("good guy hit");
+
+         this.levelStatus = "failed";
 
          var goodGuyKillSprite = this.game.add.sprite(goodGuyKilled.x, goodGuyKilled.y, "goodguy-kill");
          goodGuyKillSprite.anchor.setTo(0.5, 0.5);
@@ -94,9 +109,9 @@
             mainThis.levelFail();
          }, 1500);
       },
-      levelComplete: function() {
+      levelComplete: function(isLevelSuccess) {
          this.resetZoom();
-         this.levelManager.setMaxLevel();
+         this.levelManager.setMaxLevel(isLevelSuccess);
       },
       resetZoom: function() {
          if (TDG.ZOOMED_IN === true) {
