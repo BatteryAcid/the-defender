@@ -15,9 +15,8 @@
       badGuyGroup.physicsBodyType = Phaser.Physics.ARCADE;
 
       this.setupBadGuysForLevel = function(levelNumber) {
-         //TODO
          levelConfigs = levels.getLevelConfigs(levelNumber);
-         //TODO: consider using config files for bad guy placement instead of random
+         
          for (var i = 0; i < levelConfigs.badGuys.count; i++) {
             var badGuy = badGuyGroup.create(levelConfigs.badGuyLocationX(i), levelConfigs.badGuyLocationY(i),
                levelConfigs.badGuys.image);
@@ -46,7 +45,7 @@
          //TODO: the number here may cause some interesting behavior, test out 
          var degrees = radians * (180 / Math.PI);
          //number is speed here
-         game.physics.arcade.velocityFromAngle(degrees, TDG.CHASE_SPEED, singleEnemy.body.velocity);
+         game.physics.arcade.velocityFromAngle(degrees, levelConfigs.badGuys.speed, singleEnemy.body.velocity);
       }
 
       function setHitBoxSizeBasedOnZoom(singleEnemy) {
