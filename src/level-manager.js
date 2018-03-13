@@ -36,6 +36,9 @@
       this.getSelectedLevelLocalStorageKey = function() {
          return "selectedLevel";
       }
+      this.getNextLevelLocalStorageKey = function() {
+         return "nextLevel";
+      }
       this.getLevelColor = function(levelNum) {
          return this.levels.getLevels()[levelNum].menuColor;
       }
@@ -54,6 +57,16 @@
       this.getSelectedLevel = function() {
          return localStorage.getItem(this.getSelectedLevelLocalStorageKey()) == null ? 0 :
             localStorage.getItem(this.getSelectedLevelLocalStorageKey());
+      }
+      this.setNextLevel = function(nextLevel) {
+         localStorage.setItem(this.getNextLevelLocalStorageKey(), nextLevel);
+      }
+      this.getNextLevel = function() {
+         return localStorage.getItem(this.getNextLevelLocalStorageKey()) == null ? 0 :
+            localStorage.getItem(this.getNextLevelLocalStorageKey());
+      }
+      this.updateSelectedLevelToNextLevel = function() {
+         localStorage.setItem(this.getSelectedLevelLocalStorageKey(), this.getNextLevel());
       }
    };
 
@@ -77,7 +90,7 @@
             }
 
             localStorage.setItem(this.getLocalStorageName(), starsToUpdate.toString());
-            this.setSelectedLevel(nextLevel);
+            this.setNextLevel(nextLevel);
          }
          // no update if level failed
       }

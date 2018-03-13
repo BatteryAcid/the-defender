@@ -77,7 +77,8 @@
          levelButton.anchor.setTo(0.5, 0.5);
 
          if (this.getState() !== undefined && this.getState() !== 0) {
-            var playAgain = this.game.add.button(this.game.world.centerX, TDG.GAME_HEIGHT * .7, 'playagain-button',
+            var playAgain = this.game.add.button(this.game.world.centerX, TDG.GAME_HEIGHT * .7,
+               'playagain-button',
                this.playAgain,
                this, 2, 1,
                0);
@@ -92,14 +93,13 @@
          this.game.state.start('level-menu', true, false);
       },
       playAgain: function() {
-         var currentLevel = this.levelManager.getSelectedLevel();
-         if (this.getState() === TDG.LEVEL_COMPLETE_STATE) {
-            if (parseInt(this.levelManager.getSelectedLevel()) !== this.levelManager.getLevelCount() - 1) {
-               // don't change if max level
-               currentLevel -= 1;
-            }
+         var nextLevel = this.levelManager.getNextLevel();
+         if (this.getState() === TDG.LEVEL_COMPLETE_STATE && parseInt(this.levelManager.getSelectedLevel()) !==
+            this.levelManager.getLevelCount() - 1) {
+            // don't change if max level
+            nextLevel -= 1;
          }
-         this.levelManager.setSelectedLevel(currentLevel);
+         this.levelManager.setNextLevel(nextLevel);
          this.game.state.start('main', true, false);
       }
    };

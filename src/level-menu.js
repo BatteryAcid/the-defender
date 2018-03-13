@@ -107,6 +107,7 @@
                   if (bounds.contains(pointer.x, pointer.y) && this.scrollingMap.children[i].frame > 0) {
                      level = this.scrollingMap.children[i].levelNumber;
                      this.levelManager.setSelectedLevel(level);
+                     this.levelManager.setNextLevel(level);
                      this.game.state.start("main");
                      break;
                   }

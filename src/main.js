@@ -31,12 +31,12 @@
 
          //had to create this group so that the bullets appear on top of background
          this.gameGroup = this.game.add.group();
-         this.goodGuy = new TDG.GoodGuy(this.game, this.levels, this.levelManager.getSelectedLevel());
+         this.goodGuy = new TDG.GoodGuy(this.game, this.levels, this.levelManager.getNextLevel());
 
          this.gameGroup.add(this.bullets.getBulletGroup());
          this.gameGroup.add(this.badGuys.getBadGuyGroup());
 
-         this.badGuys.setupBadGuysForLevel(this.levelManager.getSelectedLevel());
+         this.badGuys.setupBadGuysForLevel(this.levelManager.getNextLevel());
 
          this.scope = new TDG.Scope(this.game);
          this.input = new TDG.Input(this.game, this.zoom, this.bullets, this.scope);
@@ -50,7 +50,9 @@
          quitButton.scale.setTo(buttonScale, buttonScale);
          quitButton.anchor.setTo(0.5, 0.5);
 
-         this.levelConfigs = this.levels.getLevelConfigs(this.levelManager.getSelectedLevel());
+         this.levelConfigs = this.levels.getLevelConfigs(this.levelManager.getNextLevel());
+
+         this.levelManager.updateSelectedLevelToNextLevel();
       },
       quitPlay: function() {
          this.levelStatus = "quit";
@@ -87,7 +89,7 @@
       },
       levelFail: function() {
          if (this.levelStatus !== "quit") {
-         this.game.state.start('main-menu', true, false, TDG.LEVEL_FAILED_STATE);
+            this.game.state.start('main-menu', true, false, TDG.LEVEL_FAILED_STATE);
             this.levelComplete(false);
          }
       },
