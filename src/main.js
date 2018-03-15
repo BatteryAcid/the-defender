@@ -1,12 +1,12 @@
-//TODO: setup scoreing
+//TODO: setup scoring
 //TODO: how to account for different size devices?  When percent based placement will make it easier on a larger screen?
 // - is there a way to scale everything back?
-// -set bad guys around map edge so player has time to react
-//- dont send all bad guys at once, delay each guy but speed up his approach rate
-//- bad guy should do dmg when next to good guy
-//- good guy should try to avoid bad guys? maybe just set varying path
-//- bad guys at different Y will be at different sizes
-//- consider placing objects in reference to screen center point
+// - set bad guys around map edge so player has time to react
+// - dont send all bad guys at once, delay each guy but speed up his approach rate
+// - bad guy should do dmg when next to good guy
+// - good guy should try to avoid bad guys? maybe just set varying path
+// - bad guys at different Y will be at different sizes
+// - consider placing objects in reference to screen center point
 
 (function() {
    var Main = function() {};
@@ -66,7 +66,7 @@
          badGuyKillSprite.anchor.setTo(0.5, 0.5);
          badGuyKillSprite.animations.add('badGuyKill');
          badGuyKillSprite.animations.play('badGuyKill', 30, false);
-         badGuyKillSprite.scale.setTo(.5);
+         badGuyKillSprite.scale.setTo(1);
          //makes the dead bodies appear in correct layer
          this.gameGroup.add(badGuyKillSprite);
 
@@ -102,7 +102,7 @@
          goodGuyKillSprite.anchor.setTo(0.5, 0.5);
          goodGuyKillSprite.animations.add('goodGuyKill');
          goodGuyKillSprite.animations.play('goodGuyKill', 30, false);
-         goodGuyKillSprite.scale.setTo(.5);
+         goodGuyKillSprite.scale.setTo(1);
          //makes the dead bodies appear in correct layer
          this.gameGroup.add(goodGuyKillSprite);
 
@@ -141,12 +141,13 @@
             this.badGuys.getBadGuyGroup(), this.goodGuy.getGoodGuyInstance(), this.goodGuyHit, null, this
          );
 
-         //scales bullet's hitbox based on zoom 
+         //scales bullet's hitbox based on zoom
+         //TODO: consider moving this to a function within the bullet class
          this.bullets.getBulletGroup().forEach(function(bullet) {
             if (TDG.ZOOMED_IN === false) {
-               bullet.body.setSize(10, 10, 5, 5);
+               bullet.body.setSize(5, 5, 5, 5);
             } else {
-               bullet.body.setSize(50, 50, -20, -20);
+               bullet.body.setSize(50, 50, -15, -20);
             }
          }, this.game.physics);
       },

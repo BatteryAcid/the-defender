@@ -4,7 +4,6 @@
 
       var goodGuyInstance = game.add.sprite(this.levelConfigs.goodGuy.locationX(), this.levelConfigs.goodGuy.locationY(), 'goodguy-walk');
       game.physics.enable(goodGuyInstance, Phaser.Physics.ARCADE);
-      goodGuyInstance.anchor.setTo(0, 0.1); //makes sure the bad guys always go to goodGuys center
       goodGuyInstance.scale.setTo(this.levelConfigs.goodGuy.scale);
 
       goodGuyInstance.animations.add('goodGuyWalk');
@@ -26,9 +25,9 @@
          this.levelConfigs.goodGuy.move(goodGuyInstance);
 
          if (TDG.ZOOMED_IN === false) {
-            goodGuyInstance.body.setSize(75, 100, 0, -10);
+            goodGuyInstance.body.setSize(goodGuyInstance.width, goodGuyInstance.height);
          } else {
-            goodGuyInstance.body.setSize(150, 250, 10, -10);
+            goodGuyInstance.body.setSize(goodGuyInstance.width * TDG.SCALE_FOR_ZOOM, goodGuyInstance.height * TDG.SCALE_FOR_ZOOM);
          }
       }
    };

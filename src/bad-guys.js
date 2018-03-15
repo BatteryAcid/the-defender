@@ -7,7 +7,7 @@
 
       this.setupBadGuysForLevel = function(levelNumber) {
          levelConfigs = levels.getLevelConfigs(levelNumber);
-         
+
          for (var i = 0; i < levelConfigs.badGuys.count; i++) {
             var badGuy = badGuyGroup.create(levelConfigs.badGuyLocationX(i), levelConfigs.badGuyLocationY(i),
                levelConfigs.badGuys.image);
@@ -16,8 +16,7 @@
             badGuy.animations.play(levelConfigs.badGuys.animation, 30, true);
          }
 
-         badGuyGroup.setAll('anchor.x', 0.5);
-         badGuyGroup.setAll('anchor.y', 0.5);
+         // leave the anchor as default 0 so that the body matches the image reguardless of zoom scale
       }
 
       this.pursueGoodGuy = function(goodGuy) {
@@ -40,11 +39,16 @@
       }
 
       function setHitBoxSizeBasedOnZoom(singleEnemy) {
-         if (TDG.ZOOMED_IN === false) {
-            singleEnemy.body.setSize(50, 80, 13, 0);
-         } else {
-            singleEnemy.body.setSize(150, 250, -40, -90);
-         }
+         setTimeout(function() {
+            // These body adjustments will work as long as the sprite's scale is 1 and the
+            // spritesheet frames wrap the character exactly.  This ensures the height/width
+            // of the sprite's body will match the sprite's dimensions
+            if (TDG.ZOOMED_IN === false) {
+               singleEnemy.body.setSize(singleEnemy.width, singleEnemy.height);
+            } else {
+               singleEnemy.body.setSize(singleEnemy.width * TDG.SCALE_FOR_ZOOM, singleEnemy.height * TDG.SCALE_FOR_ZOOM);
+            }
+         });
       }
 
       this.getBadGuyGroup = function() {

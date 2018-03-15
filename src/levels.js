@@ -11,13 +11,13 @@
             },
             badGuys: {
                count: 1,
-               scale: .5,
+               scale: 1,
                image: 'badguy-walk',
                animation: 'badGuyWalk',
                speed: 25
             },
             goodGuy: {
-               scale: .5,
+               scale: 1,
                locationX: function() {
                   return TDG.GAME_WIDTH * .1;
                },
@@ -42,13 +42,13 @@
             },
             badGuys: {
                count: 2,
-               scale: .5,
+               scale: 1,
                image: 'badguy-walk',
                animation: 'badGuyWalk',
                speed: 40
             },
             goodGuy: {
-               scale: .5,
+               scale: 1,
                locationX: function() {
                   return TDG.GAME_WIDTH * .3;
                },
@@ -73,13 +73,13 @@
             },
             badGuys: {
                count: 3,
-               scale: .5,
+               scale: 1,
                image: 'badguy-walk',
                animation: 'badGuyWalk',
                speed: 40
             },
             goodGuy: {
-               scale: .5,
+               scale: 1,
                locationX: function() {
                   return TDG.GAME_WIDTH * .5;
                },
@@ -104,13 +104,13 @@
             },
             badGuys: {
                count: 4,
-               scale: .5,
+               scale: 1,
                image: 'badguy-walk',
                animation: 'badGuyWalk',
                speed: 50
             },
             goodGuy: {
-               scale: .5,
+               scale: 1,
                locationX: function() {
                   return TDG.GAME_WIDTH * .7;
                },
@@ -135,13 +135,13 @@
             },
             badGuys: {
                count: 5,
-               scale: .5,
+               scale: 1,
                image: 'badguy-walk',
                animation: 'badGuyWalk',
                speed: 50
             },
             goodGuy: {
-               scale: .5,
+               scale: 1,
                locationX: function() {
                   return TDG.GAME_WIDTH * .8;
                },
