@@ -31,7 +31,8 @@
                successY: TDG.GAME_HEIGHT * .1
             },
             background: "bg1.png",
-            menuColor: "0x00CC99"
+            menuColor: "0x00CC99",
+            introText: "Protect our hero from the growing malice!"
          },
          1: {
             badGuyLocationX: function(count) {
