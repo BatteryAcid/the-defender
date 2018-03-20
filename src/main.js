@@ -1,6 +1,6 @@
+//TODO: add real sprites
+//TODO: instructions before each level start popup
 //TODO: setup scoring
-//TODO: how to account for different size devices?  When percent based placement will make it easier on a larger screen?
-// - is there a way to scale everything back?
 // - set bad guys around map edge so player has time to react
 // - dont send all bad guys at once, delay each guy but speed up his approach rate
 // - bad guy should do dmg when next to good guy
@@ -66,7 +66,8 @@
          badGuyKillSprite.anchor.setTo(0.5, 0.5);
          badGuyKillSprite.animations.add('badGuyKill');
          badGuyKillSprite.animations.play('badGuyKill', 30, false);
-         badGuyKillSprite.scale.setTo(1);
+         // badGuyKillSprite.scale.setTo(1);
+         badGuyKillSprite.scale.setTo(TDG.GAME_SCALE_Y);
          //makes the dead bodies appear in correct layer
          this.gameGroup.add(badGuyKillSprite);
 

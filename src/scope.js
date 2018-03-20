@@ -10,6 +10,8 @@
       this.inputEnabled = true;
       this.input.enableDrag(false);
 
+      this.scale.setTo(TDG.GAME_SCALE_Y);
+
       // centers the scope on the point of double click when zooming in
       this.centerOnLocation = function(pointer) {
          this.x = pointer.x;

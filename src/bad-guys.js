@@ -11,7 +11,7 @@
          for (var i = 0; i < levelConfigs.badGuys.count; i++) {
             var badGuy = badGuyGroup.create(levelConfigs.badGuyLocationX(i), levelConfigs.badGuyLocationY(i),
                levelConfigs.badGuys.image);
-            badGuy.scale.setTo(levelConfigs.badGuys.scale);
+            badGuy.scale.setTo(TDG.GAME_SCALE_Y);
             badGuy.animations.add(levelConfigs.badGuys.animation);
             badGuy.animations.play(levelConfigs.badGuys.animation, 30, true);
          }
@@ -35,7 +35,7 @@
          //TODO: the number here may cause some interesting behavior, test out 
          var degrees = radians * (180 / Math.PI);
          //number is speed here
-         game.physics.arcade.velocityFromAngle(degrees, levelConfigs.badGuys.speed, singleEnemy.body.velocity);
+         game.physics.arcade.velocityFromAngle(degrees, levelConfigs.badGuys.speed * TDG.GAME_SCALE_Y, singleEnemy.body.velocity);
       }
 
       function setHitBoxSizeBasedOnZoom(singleEnemy) {
@@ -44,9 +44,11 @@
             // spritesheet frames wrap the character exactly.  This ensures the height/width
             // of the sprite's body will match the sprite's dimensions
             if (TDG.ZOOMED_IN === false) {
-               singleEnemy.body.setSize(singleEnemy.width, singleEnemy.height);
+               singleEnemy.body.width = singleEnemy.width;
+               singleEnemy.body.height = singleEnemy.height;
             } else {
-               singleEnemy.body.setSize(singleEnemy.width * TDG.SCALE_FOR_ZOOM, singleEnemy.height * TDG.SCALE_FOR_ZOOM);
+               singleEnemy.body.width = singleEnemy.width * TDG.SCALE_FOR_ZOOM;
+               singleEnemy.body.height = singleEnemy.height * TDG.SCALE_FOR_ZOOM;
             }
          });
       }

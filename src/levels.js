@@ -14,7 +14,7 @@
                scale: 1,
                image: 'badguy-walk',
                animation: 'badGuyWalk',
-               speed: 25
+               speed: 40
             },
             goodGuy: {
                scale: 1,
@@ -45,7 +45,7 @@
                scale: 1,
                image: 'badguy-walk',
                animation: 'badGuyWalk',
-               speed: 40
+               speed: 80
             },
             goodGuy: {
                scale: 1,
@@ -76,7 +76,7 @@
                scale: 1,
                image: 'badguy-walk',
                animation: 'badGuyWalk',
-               speed: 40
+               speed: 80
             },
             goodGuy: {
                scale: 1,
@@ -107,7 +107,7 @@
                scale: 1,
                image: 'badguy-walk',
                animation: 'badGuyWalk',
-               speed: 50
+               speed: 80
             },
             goodGuy: {
                scale: 1,
@@ -128,17 +128,17 @@
          },
          4: {
             badGuyLocationX: function(count) {
-               return TDG.GAME_WIDTH * .4 + (count * game.rnd.integerInRange(100, 200));
+               return TDG.GAME_WIDTH * .5 + (count * game.rnd.integerInRange(100, 200));
             },
             badGuyLocationY: function(count) {
-               return TDG.GAME_HEIGHT * .5;
+               return TDG.GAME_HEIGHT * .6;
             },
             badGuys: {
                count: 5,
                scale: 1,
                image: 'badguy-walk',
                animation: 'badGuyWalk',
-               speed: 50
+               speed: 80
             },
             goodGuy: {
                scale: 1,
