@@ -30,6 +30,16 @@
                successX: TDG.GAME_WIDTH - (TDG.GAME_WIDTH * .1),
                successY: TDG.GAME_HEIGHT * .1
             },
+            scoring: {
+               two: {
+                  maxShotsFired: 1,
+                  maxDuration: 2.5
+               },
+               three: {
+                  maxShotsFired: 1,
+                  maxDuration: 1.5
+               }
+            },
             background: "bg1.png",
             menuColor: "0x00CC99",
             introText: "Protect our hero from the growing malice!"
@@ -62,6 +72,16 @@
                successX: TDG.GAME_WIDTH - (TDG.GAME_WIDTH * .01),
                successY: TDG.GAME_HEIGHT * .1
             },
+            scoring: {
+               two: {
+                  maxShotsFired: 2,
+                  maxDuration: 3
+               },
+               three: {
+                  maxShotsFired: 2,
+                  maxDuration: 2.5
+               }
+            },
             background: "bg1.png",
             menuColor: "0xff5050"
          },
@@ -92,6 +112,16 @@
                },
                successX: TDG.GAME_WIDTH - (TDG.GAME_WIDTH * .01),
                successY: TDG.GAME_HEIGHT * .1
+            },
+            scoring: {
+               two: {
+                  maxShotsFired: 5,
+                  maxDuration: 5
+               },
+               three: {
+                  maxShotsFired: 3,
+                  maxDuration: 3.3
+               }
             },
             background: "bg1.png",
             menuColor: "0xff5050"
@@ -124,6 +154,16 @@
                successX: TDG.GAME_WIDTH - (TDG.GAME_WIDTH * .01),
                successY: TDG.GAME_HEIGHT * .1
             },
+            scoring: {
+               two: {
+                  maxShotsFired: 6,
+                  maxDuration: 6.5
+               },
+               three: {
+                  maxShotsFired: 4,
+                  maxDuration: 5
+               }
+            },
             background: "bg1.png",
             menuColor: "0xff5050"
          },
@@ -155,10 +195,19 @@
                successX: TDG.GAME_WIDTH - (TDG.GAME_WIDTH * .01),
                successY: TDG.GAME_HEIGHT * .1
             },
+            scoring: {
+               two: {
+                  maxShotsFired: 7,
+                  maxDuration: 8
+               },
+               three: {
+                  maxShotsFired: 5,
+                  maxDuration: 6
+               }
+            },
             background: "bg1.png",
             menuColor: "0xff5050"
          }
-
       };
 
       this.getLevels = function() {
@@ -167,6 +216,20 @@
 
       this.getLevelConfigs = function(levelNumber) {
          return levelConfigs[levelNumber];
+      }
+
+      this.getStarRating = function(levelScoring, gameDuration, shotsFired) {
+         console.log(gameDuration);
+         console.log(shotsFired);
+         if (shotsFired <= levelScoring.three.maxShotsFired && gameDuration <= levelScoring.three.maxDuration) {
+            console.log("3");
+            return 3;
+         } else if (shotsFired <= levelScoring.two.maxShotsFired && gameDuration <= levelScoring.two.maxDuration) {
+            console.log("2");
+            return 2;
+         }
+         console.log("1");
+         return 1;
       }
    };
 

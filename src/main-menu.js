@@ -3,7 +3,7 @@
       this.game = game;
    };
    MainMenu.prototype = {
-      init: function(state) {
+      init: function(state, starRating) {
          this.gameWidth = TDG.GAME_WIDTH;
          this.gameHeight = TDG.GAME_HEIGHT;
 
@@ -25,7 +25,7 @@
 
          function determineStateText() {
             var stateTextContent = "Choose an option";
-            if (state === TDG.LEVEL_START_STATE) {
+            if (state === TDG.LEVEL_START_STATE || state === TDG.LEVEL_QUIT_STATE) {
                //leave as default for now
             } else if (state === TDG.LEVEL_COMPLETE_STATE) {
                stateTextContent = "Success!";
@@ -45,6 +45,16 @@
          this.stateText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
          this.stateText.anchor.set(0.5);
 
+         this.starsText = this.game.make.text(this.game.world.centerX, TDG.GAME_HEIGHT * .2 + textHeightY + 30,
+            starRating, {
+               font: .6 * textSize + "px Arial",
+               fill: '#FFFFFF',
+               align: 'center'
+            });
+
+         this.starsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
+         this.starsText.anchor.set(0.5);
+
          this.getState = function() {
             return state;
          }
@@ -58,6 +68,7 @@
 
          this.game.add.existing(this.titleText);
          this.game.add.existing(this.stateText);
+         this.game.add.existing(this.starsText);
 
          var buttonHeightY = TDG.GAME_HEIGHT * .08;
          var buttonScale = buttonHeightY / 71;
@@ -76,7 +87,7 @@
          levelButton.scale.setTo(buttonScale, buttonScale);
          levelButton.anchor.setTo(0.5, 0.5);
 
-         if (this.getState() !== undefined && this.getState() !== 0) {
+         if (this.getState() !== undefined && this.getState() !== TDG.LEVEL_START_STATE) {
             var playAgain = this.game.add.button(this.game.world.centerX, TDG.GAME_HEIGHT * .7,
                'playagain-button',
                this.playAgain,

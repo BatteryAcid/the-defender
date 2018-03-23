@@ -51,6 +51,7 @@
          this.game.load.image('menu-bg', 'images/bg1.jpg');
          this.game.load.spritesheet('button', 'images/button.png', 193, 71);
          this.game.load.spritesheet('start-button', 'images/start.png', 193, 71);
+         this.game.load.spritesheet('introstart-button', 'images/introstart.png', 193, 71);
          this.game.load.spritesheet('quit-button', 'images/quit.png', 193, 71);
          this.game.load.spritesheet('back-button', 'images/back.png', 193, 71);
          this.game.load.spritesheet('levels-button', 'images/levels.png', 193, 71);

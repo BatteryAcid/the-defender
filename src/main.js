@@ -1,5 +1,7 @@
 //TODO: add real sprites
-//TODO: setup scoring
+//TODO: need to add cooldown period after first zooming in to prevent spam zooming
+//TODO: show quit while zoomed
+//TODO: cartoonify the background images with photoshop?
 // - set bad guys around map edge so player has time to react
 // - dont send all bad guys at once, delay each guy but speed up his approach rate
 // - bad guy should do dmg when next to good guy
@@ -72,9 +74,8 @@
             this.titleText.anchor.set(0.5);
             this.game.add.existing(this.titleText);
 
-            //TODO: change to start
             this.startGameButton = this.game.add.button(TDG.GAME_WIDTH * .5, TDG.GAME_HEIGHT * .9,
-               'quit-button',
+               'introstart-button',
                this.startGame,
                this, 2, 1, 0);
             this.startGameButton.scale.setTo(buttonScale, buttonScale);
@@ -85,14 +86,61 @@
 
       },
       startGame: function() {
-         this.startGameButton.pendingDestroy = true;
-         this.titleText.destroy();
+         if (this.startGameButton) {
+            this.startGameButton.pendingDestroy = true;
+         }
+         if (this.titleText) {
+            this.titleText.destroy();
+         }
          this.started = true;
+         this.startTime = new Date();
+      },
+      levelComplete: function(isLevelSuccess, levelState) {
+         this.endTime = new Date();
+
+         var starRating = -1;
+         if (isLevelSuccess === true) {
+            var secondsBetweenDates = this.getGamePlayDurationInSeconds();
+
+            starRating = this.levels.getStarRating(this.levelConfigs.scoring, secondsBetweenDates, this.bullets
+               .getFireCount());
+         }
+         this.levelManager.setMaxLevel(isLevelSuccess, starRating);
+
+         var mainThis = this;
+         setTimeout(function() {
+            mainThis.resetZoom();
+
+            //build star rating 
+            var starsToShow = "";
+            for (var i = 1; i <= 3; i++) {
+               if (starRating >= 1 && i <= starRating) {
+                  starsToShow += String.fromCharCode(9733) + " ";
+               }
+            }
+
+            mainThis.game.state.start('main-menu', true, false, levelState, starsToShow);
+         }, 1500);
+      },
+      getGamePlayDurationInSeconds: function() {
+         var dif = this.startTime.getTime() - this.endTime.getTime();
+         var secondsBetweenStartEndTimes = dif / 1000;
+         return Math.abs(secondsBetweenStartEndTimes);
+      },
+      levelSuccess: function() {
+         if (this.levelStatus !== "failed" || this.levelStatus !== "quit") {
+            this.levelComplete(true, TDG.LEVEL_COMPLETE_STATE);
+         }
+      },
+      levelFail: function() {
+         if (this.levelStatus !== "quit") {
+            this.levelComplete(false, TDG.LEVEL_FAILED_STATE);
+         }
       },
       quitPlay: function() {
          this.levelStatus = "quit";
          this.resetZoom();
-         this.game.state.start('main-menu', true, false, TDG.LEVEL_START_STATE);
+         this.game.state.start('main-menu', true, false, TDG.LEVEL_QUIT_STATE);
       },
       badGuyHit: function(badguy, bullet) {
          console.log("bad guy hit");
@@ -110,22 +158,7 @@
          bullet.kill();
 
          if (this.badGuys.badGuysDefeated() === true) {
-            var mainThis = this;
-            setTimeout(function() {
-               mainThis.levelSuccess();
-            }, 1500);
-         }
-      },
-      levelSuccess: function() {
-         if (this.levelStatus !== "failed" || this.levelStatus !== "quit") {
-            this.game.state.start('main-menu', true, false, TDG.LEVEL_COMPLETE_STATE);
-            this.levelComplete(true);
-         }
-      },
-      levelFail: function() {
-         if (this.levelStatus !== "quit") {
-            this.game.state.start('main-menu', true, false, TDG.LEVEL_FAILED_STATE);
-            this.levelComplete(false);
+            this.levelSuccess();
          }
       },
       goodGuyHit: function(goodGuyKilled, badguy) {
@@ -143,14 +176,7 @@
 
          goodGuyKilled.kill();
 
-         var mainThis = this;
-         setTimeout(function() {
-            mainThis.levelFail();
-         }, 1500);
-      },
-      levelComplete: function(isLevelSuccess) {
-         this.resetZoom();
-         this.levelManager.setMaxLevel(isLevelSuccess);
+         this.levelFail();
       },
       resetZoom: function() {
          if (TDG.ZOOMED_IN === true) {
@@ -160,33 +186,33 @@
       },
       update: function() {
          if (this.started === true) {
-         // check if good guy reached finish
-         if (this.goodGuy.currentHeight() > this.levelConfigs.goodGuy.successY && this.goodGuy.currentWidth() <
-            this.levelConfigs.goodGuy.successX) {
-            this.goodGuy.move();
-            this.badGuys.pursueGoodGuy(this.goodGuy);
-         } else {
-            this.levelSuccess();
-         }
+            // check if good guy reached finish
+            if (this.goodGuy.currentHeight() > this.levelConfigs.goodGuy.successY && this.goodGuy.currentWidth() <
+               this.levelConfigs.goodGuy.successX) {
+               this.goodGuy.move();
+               this.badGuys.pursueGoodGuy(this.goodGuy);
+            } else {
+               this.levelSuccess();
+            }
 
-         this.game.physics.arcade.overlap(
-            this.badGuys.getBadGuyGroup(), this.bullets.getBulletGroup(), this.badGuyHit, null, this
-         );
+            this.game.physics.arcade.overlap(
+               this.badGuys.getBadGuyGroup(), this.bullets.getBulletGroup(), this.badGuyHit, null, this
+            );
 
-         this.game.physics.arcade.collide(
+            this.game.physics.arcade.collide(
                this.badGuys.getBadGuyGroup(), this.goodGuy.getGoodGuyInstance(), this.goodGuyHit, null,
                this
-         );
+            );
 
-         //scales bullet's hitbox based on zoom
-         //TODO: consider moving this to a function within the bullet class
-         this.bullets.getBulletGroup().forEach(function(bullet) {
-            if (TDG.ZOOMED_IN === false) {
-               bullet.body.setSize(5, 5, 5, 5);
-            } else {
-               bullet.body.setSize(50, 50, -15, -20);
-            }
-         }, this.game.physics);
+            //scales bullet's hitbox based on zoom
+            //TODO: consider moving this to a function within the bullet class
+            this.bullets.getBulletGroup().forEach(function(bullet) {
+               if (TDG.ZOOMED_IN === false) {
+                  bullet.body.setSize(5, 5, 5, 5);
+               } else {
+                  bullet.body.setSize(50, 50, -15, -20);
+               }
+            }, this.game.physics);
          }
       },
       render: function() {

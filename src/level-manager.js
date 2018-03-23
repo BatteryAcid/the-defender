@@ -71,12 +71,15 @@
    };
 
    LevelManager.prototype = {
-      setMaxLevel: function(isLevelSuccess) {
+      setMaxLevel: function(isLevelSuccess, starRating) {
          if (isLevelSuccess === true) {
             //flag current level as complete
-            //TODO: will need to revisit for star rating
             var starsToUpdate = this.getStars();
-            starsToUpdate[this.getSelectedLevel()] = 1;
+
+            // update rating only if it's an improvement
+            if (starsToUpdate[this.getSelectedLevel()] < starRating) {
+               starsToUpdate[this.getSelectedLevel()] = starRating;
+            }
 
             //update to next level, set to 0 to unlock it
             var nextLevel = parseInt(this.getSelectedLevel());

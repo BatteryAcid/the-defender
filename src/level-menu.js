@@ -15,7 +15,7 @@
 
    LevelMenu.prototype = {
       preload: function() {
-         this.game.load.spritesheet("levelthumb", "images/levelthumb.png", 60, 60);
+         this.game.load.spritesheet("levelthumb", "images/levelthumb.png", 180, 180);
          this.game.load.image("transp", "images/transp.png");
       },
       create: function() {
@@ -26,7 +26,7 @@
          // thumbnail width, in pixels
          var actualThumbWidth = 64;
          // space needed for title
-         var titleSpace = TDG.GAME_HEIGHT * .1;
+         var titleSpace = TDG.GAME_HEIGHT * .01;
          // stars array
          var stars = [];
          // local storage name
@@ -34,17 +34,17 @@
          // level we are currently playing
          var level;
 
-         var scaleRatio = (this.getWorkingWidth() / (actualThumbWidth * columns)) * .60;
+         var scaleRatio = (this.getWorkingWidth() / (actualThumbWidth * columns)) * .25;
          var thumbWidth = (scaleRatio) * actualThumbWidth;
          var thumbHeight = (scaleRatio) * actualThumbWidth;
          var spacingX = (this.getWorkingWidth() - (columns * thumbWidth)) / (columns - 1) * .6;
          var spacingY = ((this.getWorkingHeight() - titleSpace) - (rows * thumbHeight)) / (rows - 1) * .6;
 
-         this.game.stage.backgroundColor = "#000044";
-         this.pageText = this.game.add.text(this.getWorkingWidth() / 2, 20 * scaleRatio,
+         //this.game.stage.backgroundColor = "#647883";
+         this.pageText = this.game.add.text(this.getWorkingWidth() / 2, 40 * scaleRatio,
             "Select Level ( page 1 / " +
             this.levelManager.getPageCount() + ")", {
-               font: (scaleRatio * 16) + "px Arial",
+               font: (scaleRatio * 50) + "px Arial",
                fill: "#ffffff"
             });
          this.pageText.anchor.set(0.5);
@@ -75,19 +75,32 @@
                         spacingX),
                      topMargin + j * (thumbHeight + spacingY), "levelthumb");
 
-                  thumb.tint = this.levelManager.getLevelColor(k);
                   thumb.levelNumber = k * (rows * columns) + j * columns + i;
 
                   // assigning each thumbnail a frame according to its stars value
                   thumb.frame = this.levelManager.getStarRatingForLevel(thumb.levelNumber);
 
-                  var levelText = this.game.add.text(5, 0, thumb.levelNumber, {
-                     font: "24px Arial",
-                     fill: "#FFFFFF"
-                  });
+                  //restrict numbers to unlocked levels
+                  if (thumb.frame > 0) {
+                     var levelText = this.game.add.text(5, 0, thumb.levelNumber, {
+                        font: (thumb.height * .50) + "px Arial",
+                        fill: "#FFFFFF"
+                     });
+
+                     var leftOverWidth = thumbWidth - levelText.width;
+
+                     if (thumb.levelNumber < 10) {
+                        levelText.x = thumb.height * .70 / 2;
+                        levelText.y = 20;
+                     } else {
+                        levelText.x = thumb.height * .43 / 2;
+                        levelText.y = 20;
+                     }
+                     thumb.addChild(levelText);
+                  }
 
                   thumb.scale.setTo(1 * scaleRatio, 1 * scaleRatio);
-                  thumb.addChild(levelText);
+
                   this.scrollingMap.addChild(thumb);
                }
             }
@@ -131,7 +144,8 @@
          var buttonHeightY = TDG.GAME_HEIGHT * .08;
          var buttonScale = buttonHeightY / 71;
 
-         var mainMenuButton = this.game.add.button(TDG.GAME_WIDTH * .12, TDG.GAME_HEIGHT * .08, 'back-button', this
+         var mainMenuButton = this.game.add.button(TDG.GAME_WIDTH * .12, TDG.GAME_HEIGHT * .08, 'back-button',
+            this
             .goMainMenu, this, 2, 1, 0);
          mainMenuButton.scale.setTo(buttonScale, buttonScale);
          mainMenuButton.anchor.setTo(0.5, 0.5);

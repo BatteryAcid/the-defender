@@ -35,7 +35,8 @@
          //TODO: the number here may cause some interesting behavior, test out 
          var degrees = radians * (180 / Math.PI);
          //number is speed here
-         game.physics.arcade.velocityFromAngle(degrees, levelConfigs.badGuys.speed * TDG.GAME_SCALE_Y, singleEnemy.body.velocity);
+         game.physics.arcade.velocityFromAngle(degrees, levelConfigs.badGuys.speed * TDG.GAME_SCALE_Y,
+            singleEnemy.body.velocity);
       }
 
       function setHitBoxSizeBasedOnZoom(singleEnemy) {
@@ -43,12 +44,14 @@
             // These body adjustments will work as long as the sprite's scale is 1 and the
             // spritesheet frames wrap the character exactly.  This ensures the height/width
             // of the sprite's body will match the sprite's dimensions
-            if (TDG.ZOOMED_IN === false) {
-               singleEnemy.body.width = singleEnemy.width;
-               singleEnemy.body.height = singleEnemy.height;
-            } else {
-               singleEnemy.body.width = singleEnemy.width * TDG.SCALE_FOR_ZOOM;
-               singleEnemy.body.height = singleEnemy.height * TDG.SCALE_FOR_ZOOM;
+            if (singleEnemy.body) {
+               if (TDG.ZOOMED_IN === false) {
+                  singleEnemy.body.width = singleEnemy.width;
+                  singleEnemy.body.height = singleEnemy.height;
+               } else {
+                  singleEnemy.body.width = singleEnemy.width * TDG.SCALE_FOR_ZOOM;
+                  singleEnemy.body.height = singleEnemy.height * TDG.SCALE_FOR_ZOOM;
+               }
             }
          });
       }
