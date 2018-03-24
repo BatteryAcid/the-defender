@@ -21,8 +21,9 @@ window.onload = function() {
       }
 
       //create game
+      //false on the 6th param enables background color on canvas
       var game = new Phaser.Game(gameWidth, gameHeight,
-         Phaser.CANVAS, 'gameContainer', null, true, false);
+         Phaser.CANVAS, 'gameContainer', null, false, false);
       game.state.add('Boot', TDG.Boot);
       game.state.start('Boot');
    })();

@@ -70,15 +70,18 @@
          this.game.add.existing(this.stateText);
          this.game.add.existing(this.starsText);
 
-         var buttonHeightY = TDG.GAME_HEIGHT * .08;
-         var buttonScale = buttonHeightY / 71;
+         //must match actual button height
+         var actualButtonHeight = 280;
+         var buttonScale = (actualButtonHeight * TDG.GAME_SCALE_Y) / actualButtonHeight;
 
          var playButton = this.game.add.button(this.game.world.centerX, TDG.GAME_HEIGHT * .5, 'start-button',
             this.beginPlay,
             this, 2, 1,
             0);
-         var levelButton = this.game.add.button(this.game.world.centerX, TDG.GAME_HEIGHT * .5 + buttonHeightY +
-            10, 'levels-button', this.showLevelMenu,
+
+         var levelButton = this.game.add.button(this.game.world.centerX, TDG.GAME_HEIGHT * .5 +
+            actualButtonHeight * buttonScale + 10,
+            'levels-button', this.showLevelMenu,
             this, 2, 1, 0);
 
          playButton.scale.setTo(buttonScale, buttonScale);
@@ -88,7 +91,8 @@
          levelButton.anchor.setTo(0.5, 0.5);
 
          if (this.getState() !== undefined && this.getState() !== TDG.LEVEL_START_STATE) {
-            var playAgain = this.game.add.button(this.game.world.centerX, TDG.GAME_HEIGHT * .7,
+            var playAgain = this.game.add.button(this.game.world.centerX, TDG.GAME_HEIGHT * .5 +
+            ((actualButtonHeight * buttonScale) * 2) + 20,
                'playagain-button',
                this.playAgain,
                this, 2, 1,

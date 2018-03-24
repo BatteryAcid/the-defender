@@ -40,7 +40,8 @@
          var spacingX = (this.getWorkingWidth() - (columns * thumbWidth)) / (columns - 1) * .6;
          var spacingY = ((this.getWorkingHeight() - titleSpace) - (rows * thumbHeight)) / (rows - 1) * .6;
 
-         //this.game.stage.backgroundColor = "#647883";
+         this.game.stage.backgroundColor = "#647883";
+
          this.pageText = this.game.add.text(this.getWorkingWidth() / 2, 40 * scaleRatio,
             "Select Level ( page 1 / " +
             this.levelManager.getPageCount() + ")", {
@@ -83,18 +84,18 @@
                   //restrict numbers to unlocked levels
                   if (thumb.frame > 0) {
                      var levelText = this.game.add.text(5, 0, thumb.levelNumber, {
-                        font: (thumb.height * .50) + "px Arial",
-                        fill: "#FFFFFF"
+                        font: (thumb.height * .45) + "px Comic Sans MS",
+                        fill: "#fff200",
+                        stroke: "black",
+                        strokeThickness: 10
                      });
 
                      var leftOverWidth = thumbWidth - levelText.width;
 
                      if (thumb.levelNumber < 10) {
-                        levelText.x = thumb.height * .70 / 2;
-                        levelText.y = 20;
+                        levelText.x = thumb.height * .65 / 2;
                      } else {
-                        levelText.x = thumb.height * .43 / 2;
-                        levelText.y = 20;
+                        levelText.x = thumb.height * .40 / 2;
                      }
                      thumb.addChild(levelText);
                   }
@@ -141,7 +142,7 @@
 
          // return to main menu button 
          // the 71 should be the button height.  .08 is just a good fit for all screens
-         var buttonHeightY = TDG.GAME_HEIGHT * .08;
+         var buttonHeightY = TDG.GAME_HEIGHT * .02;
          var buttonScale = buttonHeightY / 71;
 
          var mainMenuButton = this.game.add.button(TDG.GAME_WIDTH * .12, TDG.GAME_HEIGHT * .08, 'back-button',
