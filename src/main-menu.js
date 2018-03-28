@@ -13,16 +13,6 @@
 
          this.levelManager = new TDG.LevelManager();
 
-         this.titleText = this.game.make.text(this.game.world.centerX, TDG.GAME_HEIGHT * .1 + 20,
-            "The Defender", {
-               font: textSize + "px Arial",
-               fill: '#e65100',
-               align: 'center'
-            });
-
-         this.titleText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
-         this.titleText.anchor.set(0.5);
-
          function determineStateText() {
             var stateTextContent = "Choose an option";
             if (state === TDG.LEVEL_START_STATE || state === TDG.LEVEL_QUIT_STATE) {
@@ -35,24 +25,24 @@
             return stateTextContent;
          }
 
-         this.stateText = this.game.make.text(this.game.world.centerX, TDG.GAME_HEIGHT * .1 + textHeightY + 30,
+         this.stateText = this.game.make.text(this.game.world.centerX, TDG.GAME_HEIGHT * .245,
             determineStateText(), {
                font: .6 * textSize + "px Arial",
-               fill: '#FFFFFF',
+               fill: '#000',
                align: 'center'
             });
 
-         this.stateText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
+         this.stateText.setShadow(5, 5, 'rgba(255,255,255,0.5)', 10);
          this.stateText.anchor.set(0.5);
 
-         this.starsText = this.game.make.text(this.game.world.centerX, TDG.GAME_HEIGHT * .2 + textHeightY + 30,
+         this.starsText = this.game.make.text(this.game.world.centerX, TDG.GAME_HEIGHT * .34,
             starRating, {
                font: .6 * textSize + "px Arial",
                fill: '#FFFFFF',
                align: 'center'
             });
 
-         this.starsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
+         this.starsText.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
          this.starsText.anchor.set(0.5);
 
          this.getState = function() {
@@ -66,7 +56,13 @@
          background.height = TDG.GAME_HEIGHT;
          background.anchor.y = 1;
 
-         this.game.add.existing(this.titleText);
+         //title backdrop
+         var titleBackdropScale = (TDG.GAME_HEIGHT * .30) / 663
+         var titleBackdrop = this.game.add.image(TDG.GAME_WIDTH / 2, TDG.GAME_HEIGHT * .15,
+            "title-backdrop");
+         titleBackdrop.anchor.set(0.5);
+         titleBackdrop.scale.setTo(1 * titleBackdropScale, 1 * titleBackdropScale);
+
          this.game.add.existing(this.stateText);
          this.game.add.existing(this.starsText);
 
@@ -92,7 +88,7 @@
 
          if (this.getState() !== undefined && this.getState() !== TDG.LEVEL_START_STATE) {
             var playAgain = this.game.add.button(this.game.world.centerX, TDG.GAME_HEIGHT * .5 +
-            ((actualButtonHeight * buttonScale) * 2) + 20,
+               ((actualButtonHeight * buttonScale) * 2) + 20,
                'playagain-button',
                this.playAgain,
                this, 2, 1,
