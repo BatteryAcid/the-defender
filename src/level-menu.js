@@ -17,6 +17,7 @@
       preload: function() {
          this.game.load.spritesheet("levelthumb", "images/levelthumb.png", 180, 180);
          this.game.load.image("transp", "images/transp.png");
+         this.game.load.image("level-select-header", "images/level-select-header.png");
       },
       create: function() {
          // columns of thumbnails in each page
@@ -27,7 +28,6 @@
          var actualThumbWidth = 64;
          // space needed for title
          var titleSpace = TDG.GAME_HEIGHT * .01;
-         // stars array
          var stars = [];
          // local storage name
          var localStorageName = "levelselect";
@@ -41,10 +41,14 @@
          var spacingY = ((this.getWorkingHeight() - titleSpace) - (rows * thumbHeight)) / (rows - 1) * .6;
 
          this.game.stage.backgroundColor = "#647883";
+         var levelSelectHeader = this.game.add.image(TDG.GAME_WIDTH / 2, 50 * scaleRatio,
+            "level-select-header");
+         levelSelectHeader.anchor.set(0.5);
+         levelSelectHeader.scale.setTo(1 * scaleRatio, 1 * scaleRatio);
 
-         this.pageText = this.game.add.text(this.getWorkingWidth() / 2, 40 * scaleRatio,
-            "Select Level ( page 1 / " +
-            this.levelManager.getPageCount() + ")", {
+         this.pageText = this.game.add.text(this.getWorkingWidth() * .99, TDG.GAME_HEIGHT * .9,
+            "1 / " +
+            this.levelManager.getPageCount(), {
                font: (scaleRatio * 50) + "px Arial",
                fill: "#ffffff"
             });
@@ -156,8 +160,8 @@
       },
       changePage: function(page) {
          this.currentPage += page;
-         this.pageText.text = "Select Level ( page " + (this.currentPage + 1).toString() + " / " +
-            this.levelManager.getPageCount() + ")";
+         this.pageText.text = (this.currentPage + 1).toString() + " / " +
+            this.levelManager.getPageCount();
          var tween = this.game.add.tween(this.scrollingMap).to({
             x: this.currentPage * -this.getWorkingWidth()
          }, 300, Phaser.Easing.Cubic.Out, true);
