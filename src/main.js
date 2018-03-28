@@ -58,23 +58,32 @@
 
          //intro text with start button
          if (this.levelConfigs.introText && this.levelConfigs.introText != '') {
+
+            //intro backdrop
+            var introBackdropScale = (TDG.GAME_HEIGHT * .80) / 1922;
+            this.introBackdrop = this.game.add.image(TDG.GAME_WIDTH / 2, TDG.GAME_HEIGHT * .5,
+               "intro-backdrop");
+            this.introBackdrop.anchor.set(0.5);
+            this.introBackdrop.scale.setTo(introBackdropScale, introBackdropScale);
+
+            //intro text
             var textHeightY = TDG.GAME_HEIGHT * .08;
             var textScale = textHeightY / 80;
             var textSize = textScale * 80;
             this.titleText = this.game.make.text(this.game.world.centerX, TDG.GAME_HEIGHT * .4 + 20,
                this.levelConfigs.introText, {
                   font: textSize + "px Arial",
-                  fill: '#e65100',
+                  fill: '#FFCD3A',
                   align: 'center',
                   wordWrap: true,
-                  wordWrapWidth: TDG.GAME_WIDTH * .8
+                  wordWrapWidth: this.introBackdrop.width
                });
 
             this.titleText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
             this.titleText.anchor.set(0.5);
             this.game.add.existing(this.titleText);
 
-            this.startGameButton = this.game.add.button(TDG.GAME_WIDTH * .5, TDG.GAME_HEIGHT * .9,
+            this.startGameButton = this.game.add.button(TDG.GAME_WIDTH * .5, this.introBackdrop.height * 1.07,
                'introstart-button',
                this.startGame,
                this, 2, 1, 0);
@@ -91,6 +100,9 @@
          }
          if (this.titleText) {
             this.titleText.destroy();
+         }
+         if (this.introBackdrop) {
+            this.introBackdrop.destroy();
          }
          this.started = true;
          this.startTime = new Date();

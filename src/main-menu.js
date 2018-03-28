@@ -57,7 +57,7 @@
          background.anchor.y = 1;
 
          //title backdrop
-         var titleBackdropScale = (TDG.GAME_HEIGHT * .30) / 663
+         var titleBackdropScale = (TDG.GAME_HEIGHT * .30) / 663;
          var titleBackdrop = this.game.add.image(TDG.GAME_WIDTH / 2, TDG.GAME_HEIGHT * .15,
             "title-backdrop");
          titleBackdrop.anchor.set(0.5);
