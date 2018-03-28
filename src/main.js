@@ -44,12 +44,11 @@
          this.input = new TDG.Input(this.game, this.zoom, this.bullets, this.scope);
          this.game.input.onTap.add(this.input.onTap.bind(this.input));
 
-         //quit button
-         var buttonHeightY = TDG.GAME_HEIGHT * .08;
-         var buttonScale = buttonHeightY / 90;
-         var quitButton = this.game.add.button(TDG.GAME_WIDTH * .08, TDG.GAME_HEIGHT * .05, 'quit-button',
-            this.quitPlay,
-            this, 2, 1, 0);
+         //quit button - actual size scaled down because it's actual size for pro screens is larger than necessary 
+         var actualButtonHeight = 280 * .4;
+         var buttonScale = (TDG.GAME_SCALE_Y * actualButtonHeight / 280);
+         var quitButton = this.game.add.button(TDG.GAME_WIDTH * .07, TDG.GAME_HEIGHT * .05, 'quit-button',
+            this.quitPlay, this, 2, 1, 0);
          quitButton.scale.setTo(buttonScale, buttonScale);
          quitButton.anchor.setTo(0.5, 0.5);
 

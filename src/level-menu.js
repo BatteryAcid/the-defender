@@ -145,10 +145,8 @@
          }, this);
 
          // return to main menu button 
-         // the 71 should be the button height.  .08 is just a good fit for all screens
          var buttonHeightY = TDG.GAME_HEIGHT * .02;
          var buttonScale = buttonHeightY / 71;
-
          var mainMenuButton = this.game.add.button(TDG.GAME_WIDTH * .12, TDG.GAME_HEIGHT * .08, 'back-button',
             this
             .goMainMenu, this, 2, 1, 0);

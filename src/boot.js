@@ -52,7 +52,7 @@
          this.game.load.spritesheet('button', 'images/button.png', 193, 71);
          this.game.load.spritesheet('start-button', 'images/start.png', 791, 280);
          this.game.load.spritesheet('introstart-button', 'images/introstart.png', 193, 71);
-         this.game.load.spritesheet('quit-button', 'images/quit.png', 193, 71);
+         this.game.load.spritesheet('quit-button', 'images/quit.png', 791, 280);
          this.game.load.spritesheet('back-button', 'images/back.png', 799, 280);
          this.game.load.spritesheet('levels-button', 'images/levels.png', 791, 280);
          this.game.load.spritesheet('playagain-button', 'images/playagain.png', 791, 280);
