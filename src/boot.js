@@ -41,10 +41,10 @@
          this.game.load.image('guy', 'images/guy.png');
          this.game.load.image('goodguy', 'images/goodguy.png');
          //TODO: fix goodguy-walk so that frames are exact fit around character
-         this.game.load.spritesheet('goodguy-walk', 'images/good-guy-walk.png', 43, 62);
-         this.game.load.spritesheet('goodguy-kill', 'images/good-guy-kill.png', 43, 59);
-         this.game.load.spritesheet('badguy-walk', 'images/bad-guy-walk.png', 21, 36);
-         this.game.load.spritesheet('badguy-kill', 'images/bad-guy-kill.png', 54, 49);
+         this.game.load.spritesheet('goodguy-walk', 'images/good-guy-walk.png', 160, 239);
+         this.game.load.spritesheet('goodguy-kill', 'images/good-guy-kill.png', 165, 197);
+         this.game.load.spritesheet('badguy-walk', 'images/bad-guy-walk.png', 160, 239);
+         this.game.load.spritesheet('badguy-kill', 'images/bad-guy-kill.png', 165, 226);
          this.game.load.image('background', 'images/bg1.jpg');
          this.game.load.image('bullet', 'images/purple_ball.png');
          this.game.load.image('scope', 'images/scope.png');

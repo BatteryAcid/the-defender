@@ -11,7 +11,8 @@
          for (var i = 0; i < levelConfigs.badGuys.count; i++) {
             var badGuy = badGuyGroup.create(levelConfigs.badGuyLocationX(i), levelConfigs.badGuyLocationY(i),
                levelConfigs.badGuys.image);
-            badGuy.scale.setTo(TDG.GAME_SCALE_Y);
+            //added offset scale to maintain quality of HD image
+            badGuy.scale.setTo(TDG.GAME_SCALE_Y * .25);
             badGuy.animations.add(levelConfigs.badGuys.animation);
             badGuy.animations.play(levelConfigs.badGuys.animation, 30, true);
          }

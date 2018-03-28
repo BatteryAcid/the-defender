@@ -1,3 +1,4 @@
+//TODO: move level text down a little -  shows up too high on device
 //TODO: add real sprites
 //TODO: need to add cooldown period after first zooming in to prevent spam zooming
 //TODO: show quit while zoomed
@@ -157,11 +158,12 @@
       badGuyHit: function(badguy, bullet) {
          console.log("bad guy hit");
 
+         //TODO: create deadBadGuyGroup that renders behind alive badguys and good guys
          var badGuyKillSprite = this.game.add.sprite(badguy.x, badguy.y, "badguy-kill");
-         badGuyKillSprite.anchor.setTo(0.5, 0.5);
+         badGuyKillSprite.anchor.setTo(0, 0);
          badGuyKillSprite.animations.add('badGuyKill');
          badGuyKillSprite.animations.play('badGuyKill', 30, false);
-         badGuyKillSprite.scale.setTo(TDG.GAME_SCALE_Y);
+         badGuyKillSprite.scale.setTo(TDG.GAME_SCALE_Y * .25);
          //makes the dead bodies appear in correct layer
          this.gameGroup.add(badGuyKillSprite);
 
@@ -179,10 +181,10 @@
          this.levelStatus = "failed";
 
          var goodGuyKillSprite = this.game.add.sprite(goodGuyKilled.x, goodGuyKilled.y, "goodguy-kill");
-         goodGuyKillSprite.anchor.setTo(0.5, 0.5);
+         goodGuyKillSprite.anchor.setTo(0, 0);
          goodGuyKillSprite.animations.add('goodGuyKill');
          goodGuyKillSprite.animations.play('goodGuyKill', 30, false);
-         goodGuyKillSprite.scale.setTo(1);
+         goodGuyKillSprite.scale.setTo(TDG.GAME_SCALE_Y * .25);
          //makes the dead bodies appear in correct layer
          this.gameGroup.add(goodGuyKillSprite);
 

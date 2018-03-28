@@ -4,10 +4,11 @@
 
       var goodGuyInstance = game.add.sprite(this.levelConfigs.goodGuy.locationX(), this.levelConfigs.goodGuy.locationY(), 'goodguy-walk');
       game.physics.enable(goodGuyInstance, Phaser.Physics.ARCADE);
-      goodGuyInstance.scale.setTo(TDG.GAME_SCALE_Y);
-
+      //added offset scale to maintain quality of HD image
+      goodGuyInstance.scale.setTo(TDG.GAME_SCALE_Y * .25);
       goodGuyInstance.animations.add('goodGuyWalk');
-      goodGuyInstance.animations.play('goodGuyWalk', 30, true);
+      //slow down framerate on him b/c his speed is slower
+      goodGuyInstance.animations.play('goodGuyWalk', 20, true);
 
       this.currentHeight = function() {
          return goodGuyInstance.y;
