@@ -1,9 +1,7 @@
 //TODO: move level text down a little -  shows up too high on device
-//TODO: add real sprites
 //TODO: need to add cooldown period after first zooming in to prevent spam zooming
 //TODO: show quit while zoomed
 //TODO: cartoonify the background images with photoshop?
-//TODO: increase scope size for smaller devices?
 // - set bad guys around map edge so player has time to react
 // - dont send all bad guys at once, delay each guy but speed up his approach rate
 // - bad guy should do dmg when next to good guy
@@ -61,7 +59,7 @@
          if (this.levelConfigs.introText && this.levelConfigs.introText != '') {
 
             //intro backdrop
-            var introBackdropScale = (TDG.GAME_HEIGHT * .80) / 1922;
+            var introBackdropScale = (TDG.GAME_HEIGHT * .8) / 1922;
             this.introBackdrop = this.game.add.image(TDG.GAME_WIDTH / 2, TDG.GAME_HEIGHT * .5,
                "intro-backdrop");
             this.introBackdrop.anchor.set(0.5);
@@ -77,7 +75,7 @@
                   fill: '#FFCD3A',
                   align: 'center',
                   wordWrap: true,
-                  wordWrapWidth: this.introBackdrop.width
+                  wordWrapWidth: this.introBackdrop.width * .9
                });
 
             this.titleText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);

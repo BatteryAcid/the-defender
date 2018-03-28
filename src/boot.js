@@ -39,8 +39,6 @@
       preload: function() {
          this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL; 
          this.game.load.image('guy', 'images/guy.png');
-         this.game.load.image('goodguy', 'images/goodguy.png');
-         //TODO: fix goodguy-walk so that frames are exact fit around character
          this.game.load.spritesheet('goodguy-walk', 'images/good-guy-walk.png', 160, 239);
          this.game.load.spritesheet('goodguy-kill', 'images/good-guy-kill.png', 165, 197);
          this.game.load.spritesheet('badguy-walk', 'images/bad-guy-walk.png', 160, 239);

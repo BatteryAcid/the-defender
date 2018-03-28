@@ -7,7 +7,7 @@
                return TDG.GAME_WIDTH * .05;
             },
             badGuyLocationY: function(count) {
-               return TDG.GAME_HEIGHT * .6;
+               return TDG.GAME_HEIGHT * .75;
             },
             badGuys: {
                count: 1,
@@ -42,14 +42,14 @@
             },
             background: "bg1.png",
             menuColor: "0x00CC99",
-            introText: "Protect our hero from the growing malice!"
+            introText: "Protect our hero from the growing malice! Double tap to zoom, tap again to fire."
          },
          1: {
             badGuyLocationX: function(count) {
                return TDG.GAME_WIDTH * .1 + (count * game.rnd.integerInRange(100, 200));
             },
             badGuyLocationY: function(count) {
-               return TDG.GAME_HEIGHT * .6;
+               return TDG.GAME_HEIGHT * (game.rnd.integerInRange(500, 600) / 1000);
             },
             badGuys: {
                count: 2,
@@ -87,10 +87,10 @@
          },
          2: {
             badGuyLocationX: function(count) {
-               return TDG.GAME_WIDTH * .3 + (count * game.rnd.integerInRange(100, 200));
+               return TDG.GAME_WIDTH * .4 + (count * game.rnd.integerInRange(100, 200));
             },
             badGuyLocationY: function(count) {
-               return TDG.GAME_HEIGHT * .6;
+               return TDG.GAME_HEIGHT * (game.rnd.integerInRange(500, 700) / 1000);
             },
             badGuys: {
                count: 3,
@@ -128,10 +128,10 @@
          },
          3: {
             badGuyLocationX: function(count) {
-               return TDG.GAME_WIDTH * .4 + (count * game.rnd.integerInRange(100, 200));
+               return TDG.GAME_WIDTH * .5 + (count * game.rnd.integerInRange(100, 200));
             },
             badGuyLocationY: function(count) {
-               return TDG.GAME_HEIGHT * .6;
+               return TDG.GAME_HEIGHT * (game.rnd.integerInRange(500, 700) / 1000);
             },
             badGuys: {
                count: 4,
@@ -172,7 +172,7 @@
                return TDG.GAME_WIDTH * .5 + (count * game.rnd.integerInRange(100, 200));
             },
             badGuyLocationY: function(count) {
-               return TDG.GAME_HEIGHT * .6;
+               return TDG.GAME_HEIGHT * (game.rnd.integerInRange(500, 700) / 1000);
             },
             badGuys: {
                count: 5,
