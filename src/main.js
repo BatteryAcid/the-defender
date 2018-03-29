@@ -82,6 +82,11 @@
             this.titleText.anchor.set(0.5);
             this.game.add.existing(this.titleText);
 
+            //good guy image
+            this.goodGuyImage = this.game.add.sprite(TDG.GAME_WIDTH * .5, TDG.GAME_HEIGHT * .75, 'goodguy-walk');
+            this.goodGuyImage.anchor.setTo(.5, .5);
+            this.goodGuyImage.scale.setTo(1.5 * TDG.GAME_SCALE_Y);
+
             this.startGameButton = this.game.add.button(TDG.GAME_WIDTH * .5, this.introBackdrop.height * 1.07,
                'introstart-button',
                this.startGame,
@@ -102,6 +107,9 @@
          }
          if (this.introBackdrop) {
             this.introBackdrop.destroy();
+         }
+         if (this.goodGuyImage) {
+            this.goodGuyImage.destroy();
          }
          this.started = true;
          this.startTime = new Date();
