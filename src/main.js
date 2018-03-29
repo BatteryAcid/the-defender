@@ -162,7 +162,7 @@
          this.game.state.start('main-menu', true, false, TDG.LEVEL_QUIT_STATE);
       },
       badGuyHit: function(badguy, bullet) {
-         console.log("bad guy hit");
+         //console.log("bad guy hit");
 
          //TODO: create deadBadGuyGroup that renders behind alive badguys and good guys
          var badGuyKillSprite = this.game.add.sprite(badguy.x, badguy.y, "badguy-kill");
@@ -182,7 +182,7 @@
          }
       },
       goodGuyHit: function(goodGuyKilled, badguy) {
-         console.log("good guy hit");
+         //console.log("good guy hit");
 
          this.levelStatus = "failed";
 

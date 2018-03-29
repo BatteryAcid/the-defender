@@ -219,16 +219,16 @@
       }
 
       this.getStarRating = function(levelScoring, gameDuration, shotsFired) {
-         console.log(gameDuration);
-         console.log(shotsFired);
+         //console.log(gameDuration);
+         //console.log(shotsFired);
          if (shotsFired <= levelScoring.three.maxShotsFired && gameDuration <= levelScoring.three.maxDuration) {
-            console.log("3");
+            //console.log("3");
             return 3;
          } else if (shotsFired <= levelScoring.two.maxShotsFired && gameDuration <= levelScoring.two.maxDuration) {
-            console.log("2");
+            //console.log("2");
             return 2;
          }
-         console.log("1");
+         //console.log("1");
          return 1;
       }
    };
