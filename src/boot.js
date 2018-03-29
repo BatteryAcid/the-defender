@@ -12,11 +12,15 @@
          gameWidth = window.innerHeight * window.devicePixelRatio;
          gameHeight = window.innerWidth * window.devicePixelRatio;
       }
-      //console.log("w: " + gameWidth + ", h: " + gameHeight);
+
       TDG.GAME_WIDTH = gameWidth;
       TDG.GAME_HEIGHT = gameHeight;
 
-      this.main = undefined;
+      // ipad pro resolution as base
+      var BASE_WIDTH = 2732;
+      var BASE_HEIGHT = 2048;
+
+      TDG.GAME_SCALE_Y = (TDG.GAME_HEIGHT/BASE_HEIGHT);
    };
    Boot.prototype = {
       init: function() {
@@ -35,17 +39,27 @@
       preload: function() {
          this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL; 
          this.game.load.image('guy', 'images/guy.png');
-         this.game.load.image('goodguy', 'images/goodguy.png');
-         this.game.load.image('background', 'images/bg1.png');
+         this.game.load.spritesheet('goodguy-walk', 'images/good-guy-walk.png', 160, 239);
+         this.game.load.spritesheet('goodguy-kill', 'images/good-guy-kill.png', 165, 197);
+         this.game.load.spritesheet('badguy-walk', 'images/bad-guy-walk.png', 160, 239);
+         this.game.load.spritesheet('badguy-kill', 'images/bad-guy-kill.png', 165, 226);
+         this.game.load.image('background', 'images/bg1.jpg');
          this.game.load.image('bullet', 'images/purple_ball.png');
          this.game.load.image('scope', 'images/scope.png');
-         //TODO: this.game.load.image('menu-bg', 'assets/images/menu-bg.jpg');
+         this.game.load.image('menu-bg', 'images/bg1.jpg');
+         this.game.load.image('title-backdrop', 'images/title-backdrop.png');
+         this.game.load.image('intro-backdrop', 'images/intro-backdrop.png');
          this.game.load.spritesheet('button', 'images/button.png', 193, 71);
+         this.game.load.spritesheet('start-button', 'images/start.png', 791, 280);
+         this.game.load.spritesheet('introstart-button', 'images/introstart.png', 791, 280);
+         this.game.load.spritesheet('quit-button', 'images/quit.png', 791, 280);
+         this.game.load.spritesheet('back-button', 'images/back.png', 799, 280);
+         this.game.load.spritesheet('levels-button', 'images/levels.png', 791, 280);
+         this.game.load.spritesheet('playagain-button', 'images/playagain.png', 791, 280);
       },
       create: function() {
          this.game.state.add('main', TDG.Main);
          this.game.state.add('main-menu', TDG.MainMenu);
-         // this.game.state.add('level-complete-menu', TDG.LevelCompleteMenu);
          this.game.state.add("level-menu", TDG.LevelMenu);
 
          this.game.state.start('main-menu', true, false);

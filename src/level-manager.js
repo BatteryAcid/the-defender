@@ -36,6 +36,9 @@
       this.getSelectedLevelLocalStorageKey = function() {
          return "selectedLevel";
       }
+      this.getNextLevelLocalStorageKey = function() {
+         return "nextLevel";
+      }
       this.getLevelColor = function(levelNum) {
          return this.levels.getLevels()[levelNum].menuColor;
       }
@@ -55,31 +58,44 @@
          return localStorage.getItem(this.getSelectedLevelLocalStorageKey()) == null ? 0 :
             localStorage.getItem(this.getSelectedLevelLocalStorageKey());
       }
+      this.setNextLevel = function(nextLevel) {
+         localStorage.setItem(this.getNextLevelLocalStorageKey(), nextLevel);
+      }
+      this.getNextLevel = function() {
+         return localStorage.getItem(this.getNextLevelLocalStorageKey()) == null ? 0 :
+            localStorage.getItem(this.getNextLevelLocalStorageKey());
+      }
+      this.updateSelectedLevelToNextLevel = function() {
+         localStorage.setItem(this.getSelectedLevelLocalStorageKey(), this.getNextLevel());
+      }
    };
 
    LevelManager.prototype = {
-      setMaxLevel: function() {
-         //flag current level as complete
-         //TODO: will need to revisit for star rating
-         var starsToUpdate = this.getStars();
-         starsToUpdate[this.getSelectedLevel()] = 1;
+      setMaxLevel: function(isLevelSuccess, starRating) {
+         if (isLevelSuccess === true) {
+            //flag current level as complete
+            var starsToUpdate = this.getStars();
 
-         //update to next level, set to 0
-         var nextLevel = parseInt(this.getSelectedLevel());
-         if (parseInt(this.getSelectedLevel()) < this.getLevelCount() - 1) {
-            nextLevel = parseInt(this.getSelectedLevel()) + 1;
-            starsToUpdate[nextLevel] = 0;
-         }
+            // update rating only if it's an improvement
+            if (starsToUpdate[this.getSelectedLevel()] < starRating) {
+               starsToUpdate[this.getSelectedLevel()] = starRating;
+            }
 
-         localStorage.setItem(this.getLocalStorageName(), starsToUpdate.toString());
-         this.setSelectedLevel(nextLevel);
-      },
-      levelEnded: function(goodGuyCurrentHeight) {
-         if (goodGuyCurrentHeight > this.levelHeight) {
-            return false;
-         } else {
-            return true;
+            //update to next level, set to 0 to unlock it
+            var nextLevel = parseInt(this.getSelectedLevel());
+            if (parseInt(this.getSelectedLevel()) < this.getLevelCount() - 1) {
+               nextLevel = parseInt(this.getSelectedLevel()) + 1;
+
+               //don't unlock unless not unlocked
+               if (starsToUpdate[nextLevel] < 0) {
+                  starsToUpdate[nextLevel] = 0;
+               }
+            }
+
+            localStorage.setItem(this.getLocalStorageName(), starsToUpdate.toString());
+            this.setNextLevel(nextLevel);
          }
+         // no update if level failed
       }
    };
 

@@ -15,8 +15,9 @@
 
    LevelMenu.prototype = {
       preload: function() {
-         this.game.load.spritesheet("levelthumb", "images/levelthumb.png", 60, 60);
+         this.game.load.spritesheet("levelthumb", "images/levelthumb.png", 180, 180);
          this.game.load.image("transp", "images/transp.png");
+         this.game.load.image("level-select-header", "images/level-select-header.png");
       },
       create: function() {
          // columns of thumbnails in each page
@@ -26,25 +27,29 @@
          // thumbnail width, in pixels
          var actualThumbWidth = 64;
          // space needed for title
-         var titleSpace = TDG.GAME_HEIGHT * .1;
-         // stars array
+         var titleSpace = TDG.GAME_HEIGHT * .01;
          var stars = [];
          // local storage name
          var localStorageName = "levelselect";
          // level we are currently playing
          var level;
 
-         var scaleRatio = (this.getWorkingWidth() / (actualThumbWidth * columns)) * .60;
+         var scaleRatio = (this.getWorkingWidth() / (actualThumbWidth * columns)) * .25;
          var thumbWidth = (scaleRatio) * actualThumbWidth;
          var thumbHeight = (scaleRatio) * actualThumbWidth;
          var spacingX = (this.getWorkingWidth() - (columns * thumbWidth)) / (columns - 1) * .6;
          var spacingY = ((this.getWorkingHeight() - titleSpace) - (rows * thumbHeight)) / (rows - 1) * .6;
 
-         this.game.stage.backgroundColor = "#000044";
-         this.pageText = this.game.add.text(this.getWorkingWidth() / 2, 20 * scaleRatio,
-            "Select Level ( page 1 / " +
-            this.levelManager.getPageCount() + ")", {
-               font: (scaleRatio * 16) + "px Arial",
+         this.game.stage.backgroundColor = "#647883";
+         var levelSelectHeader = this.game.add.image(TDG.GAME_WIDTH / 2, 50 * scaleRatio,
+            "level-select-header");
+         levelSelectHeader.anchor.set(0.5);
+         levelSelectHeader.scale.setTo(1 * scaleRatio, 1 * scaleRatio);
+
+         this.pageText = this.game.add.text(this.getWorkingWidth() * .99, TDG.GAME_HEIGHT * .9,
+            "1 / " +
+            this.levelManager.getPageCount(), {
+               font: (scaleRatio * 50) + "px Arial",
                fill: "#ffffff"
             });
          this.pageText.anchor.set(0.5);
@@ -75,19 +80,32 @@
                         spacingX),
                      topMargin + j * (thumbHeight + spacingY), "levelthumb");
 
-                  thumb.tint = this.levelManager.getLevelColor(k);
                   thumb.levelNumber = k * (rows * columns) + j * columns + i;
 
                   // assigning each thumbnail a frame according to its stars value
                   thumb.frame = this.levelManager.getStarRatingForLevel(thumb.levelNumber);
 
-                  var levelText = this.game.add.text(5, 0, thumb.levelNumber, {
-                     font: "24px Arial",
-                     fill: "#FFFFFF"
-                  });
+                  //restrict numbers to unlocked levels
+                  if (thumb.frame > 0) {
+                     var levelText = this.game.add.text(5, 0, thumb.levelNumber, {
+                        font: (thumb.height * .45) + "px Comic Sans MS",
+                        fill: "#fff200",
+                        stroke: "black",
+                        strokeThickness: 10
+                     });
+
+                     var leftOverWidth = thumbWidth - levelText.width;
+
+                     if (thumb.levelNumber < 10) {
+                        levelText.x = thumb.height * .65 / 2;
+                     } else {
+                        levelText.x = thumb.height * .40 / 2;
+                     }
+                     thumb.addChild(levelText);
+                  }
 
                   thumb.scale.setTo(1 * scaleRatio, 1 * scaleRatio);
-                  thumb.addChild(levelText);
+
                   this.scrollingMap.addChild(thumb);
                }
             }
@@ -107,6 +125,7 @@
                   if (bounds.contains(pointer.x, pointer.y) && this.scrollingMap.children[i].frame > 0) {
                      level = this.scrollingMap.children[i].levelNumber;
                      this.levelManager.setSelectedLevel(level);
+                     this.levelManager.setNextLevel(level);
                      this.game.state.start("main");
                      break;
                   }
@@ -126,11 +145,10 @@
          }, this);
 
          // return to main menu button 
-         // the 71 should be the button height.  .08 is just a good fit for all screens
-         var buttonHeightY = TDG.GAME_HEIGHT * .08;
+         var buttonHeightY = TDG.GAME_HEIGHT * .02;
          var buttonScale = buttonHeightY / 71;
-
-         var mainMenuButton = this.game.add.button(TDG.GAME_WIDTH * .12, TDG.GAME_HEIGHT * .08, 'button', this
+         var mainMenuButton = this.game.add.button(TDG.GAME_WIDTH * .12, TDG.GAME_HEIGHT * .08, 'back-button',
+            this
             .goMainMenu, this, 2, 1, 0);
          mainMenuButton.scale.setTo(buttonScale, buttonScale);
          mainMenuButton.anchor.setTo(0.5, 0.5);
@@ -140,8 +158,8 @@
       },
       changePage: function(page) {
          this.currentPage += page;
-         this.pageText.text = "Select Level ( page " + (this.currentPage + 1).toString() + " / " +
-            this.levelManager.getPageCount() + ")";
+         this.pageText.text = (this.currentPage + 1).toString() + " / " +
+            this.levelManager.getPageCount();
          var tween = this.game.add.tween(this.scrollingMap).to({
             x: this.currentPage * -this.getWorkingWidth()
          }, 300, Phaser.Easing.Cubic.Out, true);

@@ -1,12 +1,3 @@
-//TODO: set bad guys around map edge so player has time to react
-//- dont send all bad guys at once, delay each guy but speed up his approach rate
-//- bad guy should do dmg when next to good guy
-//- good guy should try to avoid bad guys? maybe just set varying path
-//- bad guys at different Y will be at different sizes
-//- consider placing objects in reference to screen center point
-
-//TODO left off here
-//- figure out how to make main.js build everything, level, good/bad guys, bullets, etc based on level configs
 (function() {
    var BadGuys = function(game, levels) {
       var levelConfigs;
@@ -15,17 +6,18 @@
       badGuyGroup.physicsBodyType = Phaser.Physics.ARCADE;
 
       this.setupBadGuysForLevel = function(levelNumber) {
-         //TODO
          levelConfigs = levels.getLevelConfigs(levelNumber);
-         //TODO: consider using config files for bad guy placement instead of random
+
          for (var i = 0; i < levelConfigs.badGuys.count; i++) {
             var badGuy = badGuyGroup.create(levelConfigs.badGuyLocationX(i), levelConfigs.badGuyLocationY(i),
                levelConfigs.badGuys.image);
-            badGuy.scale.setTo(levelConfigs.badGuys.scale);
+            //added offset scale to maintain quality of HD image
+            badGuy.scale.setTo(TDG.GAME_SCALE_Y * .25);
+            badGuy.animations.add(levelConfigs.badGuys.animation);
+            badGuy.animations.play(levelConfigs.badGuys.animation, 30, true);
          }
 
-         badGuyGroup.setAll('anchor.x', 0.5);
-         badGuyGroup.setAll('anchor.y', 0.5);
+         // leave the anchor as default 0 so that the body matches the image reguardless of zoom scale
       }
 
       this.pursueGoodGuy = function(goodGuy) {
@@ -44,15 +36,25 @@
          //TODO: the number here may cause some interesting behavior, test out 
          var degrees = radians * (180 / Math.PI);
          //number is speed here
-         game.physics.arcade.velocityFromAngle(degrees, TDG.CHASE_SPEED, singleEnemy.body.velocity);
+         game.physics.arcade.velocityFromAngle(degrees, levelConfigs.badGuys.speed * TDG.GAME_SCALE_Y,
+            singleEnemy.body.velocity);
       }
 
       function setHitBoxSizeBasedOnZoom(singleEnemy) {
-         if (TDG.ZOOMED_IN === false) {
-            singleEnemy.body.setSize(50, 80, 13, 0);
-         } else {
-            singleEnemy.body.setSize(150, 250, -40, -90);
-         }
+         setTimeout(function() {
+            // These body adjustments will work as long as the sprite's scale is 1 and the
+            // spritesheet frames wrap the character exactly.  This ensures the height/width
+            // of the sprite's body will match the sprite's dimensions
+            if (singleEnemy.body) {
+               if (TDG.ZOOMED_IN === false) {
+                  singleEnemy.body.width = singleEnemy.width;
+                  singleEnemy.body.height = singleEnemy.height;
+               } else {
+                  singleEnemy.body.width = singleEnemy.width * TDG.SCALE_FOR_ZOOM;
+                  singleEnemy.body.height = singleEnemy.height * TDG.SCALE_FOR_ZOOM;
+               }
+            }
+         });
       }
 
       this.getBadGuyGroup = function() {
